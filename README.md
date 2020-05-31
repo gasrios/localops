@@ -10,3 +10,4 @@ You may be interested in this project if:
 Currently supported distros:
 
 * [Ubuntu 18.04 (Bionic Beaver)](http://releases.ubuntu.com/18.04/): branch [ubuntu_bionic_beaver](https://github.com/gasrios/localops/tree/ubuntu_bionic_beaver).
+* [Ubuntu 20.04 (Focal Fossa)](http://releases.ubuntu.com/20.04/): branch [ubuntu_focal_fossa](https://github.com/gasrios/localops/tree/ubuntu_focal_fossa).
