@@ -1,0 +1,10 @@
+# bootstrap.sh automated test
+
+FROM localops:ubuntu-18.04-base
+
+COPY . /home/test/localops
+
+RUN chown -R test:test /home/test/localops
+
+# TODO Add script to test all playbooks
+CMD ["su test -c 'cd ~/localops && ./bootstrap.sh'"]
