@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+
+    - name: Install AWS CLI
+      pip:
+        name: awscli
+        state: latest

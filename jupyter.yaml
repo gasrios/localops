@@ -1,0 +1,9 @@
+- import_playbook: pip.yaml
+
+- hosts: all
+  tasks:
+
+  - name: Install Jupyter
+    pip:
+      name: jupyter
+      state: latest

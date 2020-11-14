@@ -1,0 +1,25 @@
+- hosts: all
+  tasks:
+
+    - name: Create local CA key
+      become: yes
+      become_user: root
+      openssl_privatekey:
+        owner: root
+        group: ssl-cert
+        mode: 0640
+        path: /etc/ssl/private/localhost_CA.key
+
+    - name: Look for local CA certificate
+      stat:
+        path: /etc/ssl/certs/localhost_CA.pem
+      register: localhost_CA_certificate
+
+    - name: Create local CA certificate
+      when: localhost_CA_certificate.stat.exists == False
+      become: yes
+      become_user: root
+      # Root certificates generated with openssl_certificate are not accepted by Firefox
+      shell: openssl req -subj '/CN=localhost' -x509 -sha256 -days 3650 -key /etc/ssl/private/localhost_CA.key -out /etc/ssl/certs/localhost_CA.pem
+
+    # TODO Add local CA certificate to Firefox / Google Chrome

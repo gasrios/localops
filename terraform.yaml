@@ -1,0 +1,38 @@
+- name: Create ~/bin and add it to PATH
+  import_playbook: create-user-bin.yaml
+
+- hosts: all
+  tasks:
+
+    - name: Update apt cache, if older than a day
+      become: yes
+      become_user: root
+      apt:
+        update_cache: yes
+        cache_valid_time: 86400
+
+    - name: Install jq
+      become: yes
+      become_user: root
+      apt:
+        state: latest
+        pkg: jq
+
+    # https://learn.hashicorp.com/terraform/getting-started/install.html#installing-terraform
+    #
+    # "After downloading Terraform, unzip the package. Terraform runs as a single binary named terraform.
+    # Any other files in the package can be safely removed and Terraform will still function."
+    #
+    # Seems the .zip only contains the executable, but, just to be sure...
+
+    - name: Download Terraform
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+        dest: /tmp
+        remote_src: yes
+
+    - name: Copy Terraform binary to ~/bin
+      copy:
+        src: /tmp/terraform
+        dest: /home/{{ ansible_user }}/bin
+        mode: '0744'

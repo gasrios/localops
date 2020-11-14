@@ -1,0 +1,33 @@
+- name: Create ~/bin and add it to PATH
+  import_playbook: create-user-bin.yaml
+
+- hosts: all
+  tasks:
+
+    - name: Install Chef Workstation, version 0.9.42
+      become: yes
+      become_user: root
+      apt:
+        deb: https://packages.chef.io/files/stable/chef-workstation/0.9.42/ubuntu/18.04/chef-workstation_0.9.42-1_amd64.deb
+
+    - name: Create ~/bin
+      file:
+        path: ~/bin
+        mode: '744'
+        state: directory
+
+    # https://www.packer.io/intro/getting-started/install.html#precompiled-binaries
+    #
+    # Seems the .zip only contains the executable, but, just to be sure...
+
+    - name: Download Packer
+      unarchive:
+        src: https://releases.hashicorp.com/packer/1.4.3/packer_1.4.3_linux_amd64.zip
+        dest: /tmp
+        remote_src: yes
+
+    - name: Copy Packer binary to ~/bin
+      copy:
+        src: /tmp/packer
+        dest: /home/{{ ansible_user }}/bin
+        mode: '0744'

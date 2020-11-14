@@ -1,0 +1,24 @@
+server {
+
+  server_name jenkins.localhost;
+
+  listen 443 ssl;
+  listen [::]:443 ssl;
+
+  ssl_certificate /etc/ssl/certs/jenkins.localhost.crt;
+  ssl_certificate_key /etc/ssl/private/jenkins.localhost.key;
+
+  # See: https://bugs.debian.org/773332
+  gzip off;
+
+  access_log /var/log/nginx/jenkins.access.log;
+  error_log  /var/log/nginx/jenkins.error.log;
+
+  location / {
+      proxy_pass         http://localhost:8080;
+      proxy_http_version 1.1;
+      proxy_set_header   X-Forwarded-Host  $host;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+  }
+
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Local Docker Registry
+After=docker.service
+
+[Service]
+User=docker-registry
+Group=docker
+ExecStart=/usr/local/bin/docker-registry
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,62 @@
+- name: Install curl
+  import_playbook: curl.yaml
+
+- name: Create ~/bin and add it to PATH
+  import_playbook: create-user-bin.yaml
+
+- hosts: all
+  tasks:
+
+    - name: Add Docker apt repository signing key
+      become: yes
+      become_user: root
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker apt repo
+      become: yes
+      become_user: root
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt cache, if older than a day
+      become: yes
+      become_user: root
+      apt:
+        update_cache: yes
+        cache_valid_time: 86400
+
+    - name: Install Docker
+      become: yes
+      become_user: root
+      apt:
+        state: latest
+        pkg: docker-ce
+
+    - name: Get docker-compose latest version
+      shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/docker/compose/releases/latest | sed -e 's|.*/||'"
+      args:
+        warn: false
+      register: version
+
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/{{ version.stdout }}/docker-compose-Linux-x86_64
+        dest: "~/bin/docker-compose-{{ version.stdout }}"
+        mode: '744'
+
+    - name: Create a symbolic link
+      file:
+        src: "~/bin/docker-compose-{{ version.stdout }}"
+        dest: ~/bin/docker-compose
+        state: link
+
+    - name: Add this user to group docker
+      become: yes
+      become_user: root
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes

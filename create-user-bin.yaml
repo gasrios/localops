@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+
+    - name: Create ~/bin
+      file:
+        path: ~/bin
+        mode: '744'
+        state: directory
+
+    - name: Add ~/bin to PATH
+      lineinfile:
+        path: ~/.bashrc
+        line: PATH="$HOME/bin:$PATH"

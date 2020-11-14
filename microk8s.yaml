@@ -1,0 +1,122 @@
+# See https://microk8s.io/docs/troubleshooting#heading--common-issues ,
+# "My pods can't reach the internet or each other (but my MicroK8s host machine can)..."
+#
+# If you need your microk8s cluster to access the Internet, localops provides script
+# microk8s/ufw-allow-microk8s.sh to help you configure your firewall. However, localops
+# *DOES NOT* execute it, as this might be a security issue. Please review and customize
+# it as you see fit, given your use cases.
+#
+# Even after correctly configuring your firewall, you may experience connectivity issues,
+# after rebooting. Running "microk8s stop" before shutting down should prevent them from
+# happening and, even if they do, "microk8s start" and "microk8s stop" should fix them.
+
+- name: Install direnv
+  import_playbook: direnv.yaml
+
+- name: Install kubectl
+  import_playbook: kubectl.yaml
+
+- hosts: all
+  tasks:
+
+  - name: Install microk8s with option --classic
+    become: yes
+    become_user: root
+    snap:
+      name: microk8s
+      classic: yes
+      channel: latest/stable
+
+  - name: Add /snap/bin to PATH
+    lineinfile:
+      path: ~/.bashrc
+      line: PATH="/snap/bin:$PATH"
+
+  # FIXME Probably should enable other addons, too. See https://microk8s.io/docs/addons
+  - name: Deploy CoreDNS
+    become: yes
+    become_user: root
+    shell: "/snap/bin/microk8s enable dns"
+
+  - name: Add this user to group microk8s
+    become: yes
+    become_user: root
+    user:
+      name: "{{ ansible_user_id }}"
+      groups: microk8s
+      append: yes
+
+  - name: Create directory ~/.kube if it does not exist
+    file:
+      path: ~/.kube
+      state: directory
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: '0755'
+
+  # Why not use Ansible copy? It won't read the file, even with become_user
+  # FIXME Should not rely on home dir being at /home
+  - name: Copy /var/snap/microk8s/current/credentials/kubelet.config to ~/.kube/microk8s
+    become: yes
+    become_user: root
+    shell: "cp -f /var/snap/microk8s/current/credentials/kubelet.config /home/{{ ansible_user }}/.kube/microk8s"
+
+  - name: Change ownership, group and permissions of ~/.kube/microk8s
+    become: yes
+    become_user: root
+    file:
+      path: "/home/{{ ansible_user }}/.kube/microk8s"
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: '0600'
+
+  - name: Create file "~/.envrc" if it does not exist
+    file:
+      path: "~/.envrc"
+      state: touch
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+
+  - name: Add microk8s KUBECONFIG configuration to ~/.envrc
+    blockinfile:
+      path: ~/.envrc
+      block: |
+        export KUBECONFIG=~/.kube/microk8s
+        export CONTEXT=microk8s
+
+  - name: Update direnv config
+    shell: direnv allow
+
+  # FIXME This code is replicated in jenkins.yaml. Refactor using a module
+  - name: Get kubeval latest version
+    shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/instrumenta/kubeval/releases/latest | sed -e 's|.*/||'"
+    args:
+      warn: false
+    register: kubeval_version
+
+  - name: Download kubeval
+    unarchive:
+      src: https://github.com/instrumenta/kubeval/releases/download/{{ kubeval_version.stdout }}/kubeval-linux-amd64.tar.gz
+      dest: /tmp
+      remote_src: yes
+
+  - name: Copy kubeval binary to ~/bin
+    copy:
+      src: /tmp/kubeval
+      dest: "~/bin/kubeval-{{ kubeval_version.stdout }}"
+      mode: '0744'
+
+  - name: Create a symbolic link
+    file:
+      src: "~/bin/kubeval-{{ kubeval_version.stdout }}"
+      dest: ~/bin/kubeval
+      state: link
+
+  - debug:
+      msg: >
+        MicroK8s was installed. If you need your microk8s cluster to access the Internet,
+        run script microk8s/ufw-allow-microk8s.sh as root. Be aware it will make changes
+        to your firewall that might pose security risks. Even after correctly configuring
+        your firewall, you may experience connectivity issues, after rebooting. Running
+        'microk8s stop' before shutting down should prevent them from happening and, even
+        if they do, 'microk8s start' and 'microk8s stop' should fix them.

@@ -1,0 +1,51 @@
+- name: Install curl
+  import_playbook: curl.yaml
+
+- name: Create ~/bin and add it to PATH
+  import_playbook: create-user-bin.yaml
+
+- hosts: all
+  tasks:
+
+  - name: Get Spring Boot CLI latest version
+    shell: >
+      curl -Ls -o /dev/null -w %{url_effective} https://github.com/spring-projects/spring-boot/releases/latest
+      | sed -e 's|.*/v\(.*\)\.RELEASE|\1|'
+    args:
+      warn: false
+    register: version
+
+  - name: Download Spring Boot CLI
+    unarchive:
+      src: https://repo.spring.io/snapshot/org/springframework/boot/spring-boot-cli/{{ version.stdout }}.BUILD-SNAPSHOT/spring-boot-cli-{{ version.stdout }}.BUILD-SNAPSHOT-bin.tar.gz
+      dest: /tmp
+      remote_src: yes
+
+  - name: Copy Spring Boot CLI binary to ~/bin
+    copy:
+      src: /tmp/spring-{{ version.stdout }}.BUILD-SNAPSHOT/bin/spring
+      dest: /home/{{ ansible_user }}/bin/spring-{{ version.stdout }}
+      mode: '0744'
+
+  - name: Create ~/lib
+    file:
+      path: ~/lib
+      mode: '744'
+      state: directory
+
+  - name: Copy Spring Boot CLI binary to ~/lib
+    copy:
+      src: /tmp/spring-2.3.4.BUILD-SNAPSHOT/lib/spring-boot-cli-{{ version.stdout }}.BUILD-SNAPSHOT.jar
+      dest: "/home/{{ ansible_user }}/lib"
+      mode: '0744'
+
+  - name: Create a symbolic link
+    file:
+      src: "~/bin/spring-{{ version.stdout }}"
+      dest: ~/bin/spring
+      state: link
+
+  - name: Install Spring Cloud latest version
+    shell: spring install org.springframework.cloud:spring-cloud-cli:2.2.0.BUILD-SNAPSHOT
+
+  # FIXME Still not working, try "spring cloud kafka"
