@@ -33,5 +33,5 @@ set -o errexit -o nounset -o pipefail -o xtrace
 
 # Installs APT packages "ubuntu-standard" and "python3-distutils",
 # creates user "test". This saves time later.
-docker build -t localops:ubuntu-18.04-base -f test/Dockerfile-ubuntu-18.04-base .
 docker build -t localops:ubuntu-20.04-base -f test/Dockerfile-ubuntu-20.04-base .
+docker build -t localops:ubuntu-18.04-base -f test/Dockerfile-ubuntu-18.04-base .

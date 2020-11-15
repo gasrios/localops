@@ -41,5 +41,3 @@ then
  pip install setuptools
  pip install ansible
 fi
-
-./ansible-playbook.sh aws-cli.yaml

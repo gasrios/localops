@@ -28,9 +28,9 @@
 set -o errexit -o nounset -o pipefail -o xtrace
 
 # TODO mount at runtime instead of copying and creating a new image?
-docker build -t localops:ubuntu-18.04 -f test/Dockerfile-ubuntu-18.04 .
-docker run localops:ubuntu-18.04
-
-# TODO mount at runtime instead of copying and creating a new image?
 docker build -t localops:ubuntu-20.04 -f test/Dockerfile-ubuntu-20.04 .
 docker run -it localops:ubuntu-20.04
+
+# TODO mount at runtime instead of copying and creating a new image?
+docker build -t localops:ubuntu-18.04 -f test/Dockerfile-ubuntu-18.04 .
+docker run localops:ubuntu-18.04
