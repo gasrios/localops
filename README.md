@@ -83,6 +83,45 @@ Some of the above do nothing beyond installing packages from official Ubuntu rep
 If you need your microk8s cluster to access the Internet, localops provides script [microk8s/ufw-allow-microk8s.sh](https://github.com/gasrios/localops/blob/master/microk8s/ufw-allow-microk8s.sh) to help you configure your firewall. However, localops **DOES NOT** execute it, as this might be a security issue. Please review and customize it as you see fit, given your use cases.
 
 Even after correctly configuring your firewall, you may experience connectivity issues, after rebooting. Running "microk8s stop" before shutting down should prevent them from happening and, even if they do, "microk8s stop" and "microk8s start" should fix them.
+
+## Testing
+
+* [test/prepare-test.sh](https://github.com/gasrios/localops/blob/master/test/prepare-test.sh) creates "base" Docker test images. "Vanilla" Ubuntu Docker images do not have all the packages you would expect to find in an Ubuntu desktop, so we add the bare minimum that ensurer compatibility.
+
+* [test/test.sh](https://github.com/gasrios/localops/blob/master/test/test.sh) runs the installation process in all supported environments.
+
+A few Docker commands that might help (**use them carefully, as they might delete other Docker images and containers you have available locally**):
+
+```
+# Lists all existing images and containers
+clear; docker image ls -a; echo; docker container ls -a
+
+# Deletes test containers
+docker container rm $(docker container ls -a | egrep '/bin/bash' | awk '{print $1}')
+
+# Deletes test images
+docker image rm localops:ubuntu-20.04
+docker image rm localops:ubuntu-18.04
+
+# Runs images in "manual test" mode
+docker run -it localops:ubuntu-20.04 '/bin/bash'
+docker run -it localops:ubuntu-18.04 '/bin/bash'
+
+# Backups base test images
+docker save --output ~/localops_images/ubuntu-18.04-base.tar ${UBUNTU_18.04_IMAGE_ID}
+docker save --output ~/localops_images/ubuntu-20.04-base.tar ${UBUNTU_20.04_IMAGE_ID}
+
+# Cleans up all images (removes intermediary images)
+docker image prune -fa
+
+# Restores backups
+docker load --input ~/localops_images/ubuntu-18.04-base.tar
+docker load --input ~/localops_images/ubuntu-20.04-base.tar
+
+# Tags are lost after restoring, recreate them
+docker tag ${UBUNTU_18.04_IMAGE_ID} localops:ubuntu-18.04-base
+docker tag ${UBUNTU_20.04_IMAGE_ID} localops:ubuntu-20.04-base
+```
 _____
 ## Copyright & License
 

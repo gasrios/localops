@@ -34,6 +34,8 @@ then
   # Bootstrap pip using apt package "python3-pip"; later pip will manage itself
   sudo DEBIAN_FRONTEND=noninteractive apt install --assume-yes python3-pip
   pip3 install --force-reinstall --user pip
+  # This ensures that, during the bootstrap, PATH contains "$HOME/.local/bin:$PATH",
+  # which is where pip and Ansible are
   . ~/.profile
   sudo DEBIAN_FRONTEND=noninteractive apt purge --assume-yes python3-pip
   sudo DEBIAN_FRONTEND=noninteractive apt autoremove --assume-yes
@@ -41,3 +43,5 @@ then
  pip install setuptools
  pip install ansible
 fi
+
+./localops-cli.sh create-user-bin.yaml
