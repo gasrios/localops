@@ -121,6 +121,11 @@ docker load --input ~/localops_images/ubuntu-20.04-base.tar
 # Tags are lost after restoring, recreate them
 docker tag ${UBUNTU_18.04_IMAGE_ID} localops:ubuntu-18.04-base
 docker tag ${UBUNTU_20.04_IMAGE_ID} localops:ubuntu-20.04-base
+
+# Creates "tested" images from the containers, with localps already istalled, you can
+# use while testing your own playbooks
+docker commit ${UBUNTU_20.04_CONTAINER_ID} localops:ubuntu-20.04
+docker commit ${UBUNTU_18.04_CONTAINER_ID} localops:ubuntu-18.04
 ```
 _____
 ## Copyright & License
