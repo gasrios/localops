@@ -9,7 +9,7 @@ RUN apt update
 
 RUN DEBIAN_FRONTEND=noninteractive apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
-RUN DEBIAN_FRONTEND=noninteractive apt install --assume-yes sudo ubuntu-standard python3-distutils
+RUN DEBIAN_FRONTEND=noninteractive apt install --assume-yes sudo ubuntu-standard python3-distutils vim git
 
 RUN useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel
 
