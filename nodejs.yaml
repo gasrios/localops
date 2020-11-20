@@ -22,7 +22,3 @@
     shell: 'source ~/.nvm/nvm.sh && nvm install node'
     args:
       executable: /bin/bash
-    register: output
-
-  - debug:
-      msg: "output: {{ output.stdout }}"
