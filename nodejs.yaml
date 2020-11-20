@@ -1,0 +1,28 @@
+- name: Install curl
+  import_playbook: curl.yaml
+
+- hosts: all
+  tasks:
+
+  - name: Get nvm latest version
+    shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/nvm-sh/nvm/releases/latest | sed -e 's|.*/||'"
+    args:
+      warn: false
+    register: version
+
+  # https://github.com/nvm-sh/nvm#ansible
+  - name: Install nvm
+    shell: "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/{{ version.stdout }}/install.sh | bash"
+    args:
+      warn: false
+      creates: "~/.nvm/nvm.sh"
+
+  # https://github.com/nvm-sh/nvm#usage
+  - name: Download, compile, and install the latest release of node
+    shell: 'source ~/.nvm/nvm.sh && nvm install node'
+    args:
+      executable: /bin/bash
+    register: output
+
+  - debug:
+      msg: "output: {{ output.stdout }}"
