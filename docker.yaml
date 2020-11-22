@@ -18,7 +18,7 @@
       become: yes
       become_user: root
       apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
         state: present
 
     - name: Update apt cache, if older than a day
