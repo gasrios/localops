@@ -13,7 +13,7 @@
       become: yes
       become_user: root
       apt_repository:
-        repo: deb http://linux.dropbox.com/ubuntu bionic main
+        repo: deb [arch=amd64] http://linux.dropbox.com/ubuntu bionic main
         state: present
 
     - name: Update apt cache, if older than a day
