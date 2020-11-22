@@ -22,4 +22,8 @@
 
 set -o errexit -o nounset -o pipefail -o xtrace
 
-ansible-playbook -i localhost, -c local $1
+while [ "$#" -gt 0 ]
+do
+  ansible-playbook -i localhost, -c local $1
+  shift
+done
