@@ -1,14 +1,21 @@
-- import_playbook: pip.yaml
 - import_playbook: docker.yaml
 - import_playbook: nginx.yaml
 
 - hosts: all
   tasks:
 
+  - name: Install pip, system wide
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: python3-pip
+
   - name: install python docker module
     become: yes
     become_user: root
     pip:
+      executable: pip3
       name: docker
       version: 2.0.0
       state: present
