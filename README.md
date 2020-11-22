@@ -11,7 +11,7 @@ The existing playbooks suit my particular needs and may, or may not, interest yo
 
 ## Currently supported distros:
 
-* [Ubuntu 18.04 (Bionic Beaver)](http://releases.ubuntu.com/18.04/)
+* [Ubuntu 18.04 (Bionic Beaver)](http://releases.ubuntu.com/18.04/), 64 bit only
 * [Ubuntu 20.04 (Focal Fossa)](http://releases.ubuntu.com/20.04/)
 
 [Ubuntu 16.04 (Xenial Xerus)](http://releases.ubuntu.com/16.04/) is neither supported (if you find bugs, I will not fix them) nor was extensively tested, but some people did install localops in it and used it successfully.
