@@ -10,6 +10,9 @@
 # after rebooting. Running "microk8s stop" before shutting down should prevent them from
 # happening and, even if they do, "microk8s start" and "microk8s stop" should fix them.
 
+- name: Install curl
+  import_playbook: curl.yaml
+
 - name: Install direnv
   import_playbook: direnv.yaml
 
