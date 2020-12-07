@@ -40,8 +40,7 @@ then
   sudo DEBIAN_FRONTEND=noninteractive apt purge --assume-yes python3-pip
   sudo DEBIAN_FRONTEND=noninteractive apt autoremove --assume-yes
  fi
- pip install setuptools
- pip install ansible
+ pip install setuptools ansible
 fi
 
 ./localops-cli.sh create-user-bin.yaml
