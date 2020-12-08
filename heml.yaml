@@ -1,0 +1,32 @@
+- name: Install curl
+  import_playbook: curl.yaml
+
+- name: Create ~/bin and add it to PATH
+  import_playbook: create-user-bin.yaml
+
+- hosts: all
+  tasks:
+
+  - name: Get Heml latest version
+    shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | sed -e 's|.*/||'"
+    args:
+      warn: false
+    register: version
+
+  - name: Download Helm
+    unarchive:
+      src: https://get.helm.sh/helm-{{ version.stdout }}-linux-amd64.tar.gz
+      dest: /tmp
+      remote_src: yes
+
+  - name: Copy Helm binary to ~/bin
+    copy:
+      src: /tmp/linux-amd64/helm
+      dest: /home/{{ ansible_user }}/bin/helm-{{ version.stdout }}
+      mode: '0744'
+
+  - name: Create a symbolic link
+    file:
+      src: "~/bin/helm-{{ version.stdout }}"
+      dest: ~/bin/helm
+      state: link
