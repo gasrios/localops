@@ -1,7 +1,8 @@
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Install AWS CLI
-      pip:
-        name: awscli
-        state: latest
+  - name: Install AWS CLI
+    pip:
+      name: awscli
+      state: latest

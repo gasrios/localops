@@ -1,53 +1,54 @@
 # From https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/
 
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Add Microsoft apt repository signing key
-      become: yes
-      become_user: root
-      apt_key:
-        url: https://packages.microsoft.com/keys/microsoft.asc
-        state: present
+  - name: Add Microsoft apt repository signing key
+    become: yes
+    become_user: root
+    apt_key:
+      url: https://packages.microsoft.com/keys/microsoft.asc
+      state: present
 
-    - name: Add Visual Studio Code apt repo
-      become: yes
-      become_user: root
-      apt_repository:
-        repo: deb https://packages.microsoft.com/repos/vscode stable main
-        state: present
+  - name: Add Visual Studio Code apt repo
+    become: yes
+    become_user: root
+    apt_repository:
+      repo: deb https://packages.microsoft.com/repos/vscode stable main
+      state: present
 
-    - name: Update apt cache, if older than a day
-      become: yes
-      become_user: root
-      apt:
-        update_cache: yes
-        cache_valid_time: 86400
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
 
-    - name: Install package that manages repositories software is installed from
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: software-properties-common
+  - name: Install package that manages repositories software is installed from
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: software-properties-common
 
-    - name: Install HTTPS download transport for APT
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: apt-transport-https
+  - name: Install HTTPS download transport for APT
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: apt-transport-https
 
-    - name: Install wget
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: wget
+  - name: Install wget
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: wget
 
-    - name: Install Visual Studio Code
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: code
+  - name: Install Visual Studio Code
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: code

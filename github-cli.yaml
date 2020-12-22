@@ -1,34 +1,35 @@
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Add GitHib CLI apt repository signing key
-      become: yes
-      become_user: root
-      apt_key:
-        keyserver: keyserver.ubuntu.com
-        id: C99B11DEB97541F0
-        state: present
+  - name: Add GitHib CLI apt repository signing key
+    become: yes
+    become_user: root
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: C99B11DEB97541F0
+      state: present
 
-    - name: Add GitHib CLI apt repository
-      become: yes
-      become_user: root
-      shell: "apt-add-repository https://cli.github.com/packages"
-#      args:
-#        warn: false
-#      apt_repository:
-#        repo: https://cli.github.com/packages
-#        state: present
+  - name: Add GitHib CLI apt repository
+    become: yes
+    become_user: root
+    shell: "apt-add-repository https://cli.github.com/packages"
+#    args:
+#      warn: false
+#    apt_repository:
+#      repo: https://cli.github.com/packages
+#      state: present
 
-    - name: Update apt cache, if older than a day
-      become: yes
-      become_user: root
-      apt:
-        update_cache: yes
-        cache_valid_time: 86400
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
 
-    - name: Install GitHub CLI
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: gh
+  - name: Install GitHub CLI
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: gh

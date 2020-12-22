@@ -1,30 +1,31 @@
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Add Spotify apt repository signing key
-      become: yes
-      become_user: root
-      apt_key:
-        url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
-        state: present
+  - name: Add Spotify apt repository signing key
+    become: yes
+    become_user: root
+    apt_key:
+      url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
+      state: present
 
-    - name: Add Spotify apt repo
-      become: yes
-      become_user: root
-      apt_repository:
-        repo: deb [arch=amd64] http://repository.spotify.com stable non-free
-        state: present
+  - name: Add Spotify apt repo
+    become: yes
+    become_user: root
+    apt_repository:
+      repo: deb [arch=amd64] http://repository.spotify.com stable non-free
+      state: present
 
-    - name: Update apt cache, if older than a day
-      become: yes
-      become_user: root
-      apt:
-        update_cache: yes
-        cache_valid_time: 86400
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
 
-    - name: Install spotify-client
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: spotify-client
+  - name: Install spotify-client
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: spotify-client

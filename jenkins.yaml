@@ -9,6 +9,7 @@
   import_playbook: microk8s.yaml
 
 - hosts: all
+  gather_facts: false
   # TODO We need "become" and "become_user" here for include_role, and
   # need to repeat then below, for each task. This can't be right.
   become: yes

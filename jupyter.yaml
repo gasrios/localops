@@ -1,6 +1,7 @@
 - import_playbook: pip.yaml
 
 - hosts: all
+  gather_facts: false
   tasks:
 
   - name: Install Jupyter

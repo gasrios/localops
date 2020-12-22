@@ -1,24 +1,25 @@
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Create ~/bin
-      file:
-        path: ~/bin
-        mode: '744'
-        state: directory
+  - name: Create ~/bin
+    file:
+      path: ~/bin
+      mode: '744'
+      state: directory
 
-    - name: Add ~/bin to PATH
-      lineinfile:
-        path: ~/.bashrc
-        line: PATH="$HOME/bin:$PATH"
+  - name: Add ~/bin to PATH
+    lineinfile:
+      path: ~/.bashrc
+      line: PATH="$HOME/bin:$PATH"
 
-    - name: Create ~/.local/bin
-      file:
-        path: ~/.local/bin
-        mode: '744'
-        state: directory
+  - name: Create ~/.local/bin
+    file:
+      path: ~/.local/bin
+      mode: '744'
+      state: directory
 
-    - name: Add ~/.local/bin to PATH
-      lineinfile:
-        path: ~/.bashrc
-        line: PATH="$HOME/.local/bin:$PATH"
+  - name: Add ~/.local/bin to PATH
+    lineinfile:
+      path: ~/.bashrc
+      line: PATH="$HOME/.local/bin:$PATH"

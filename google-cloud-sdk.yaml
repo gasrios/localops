@@ -1,30 +1,31 @@
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Add Google Cloud SDK apt repository signing key
-      become: yes
-      become_user: root
-      apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        state: present
+  - name: Add Google Cloud SDK apt repository signing key
+    become: yes
+    become_user: root
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
 
-    - name: Add Google Cloud SDK apt repo
-      become: yes
-      become_user: root
-      apt_repository:
-        repo: deb https://packages.cloud.google.com/apt cloud-sdk main
-        state: present
+  - name: Add Google Cloud SDK apt repo
+    become: yes
+    become_user: root
+    apt_repository:
+      repo: deb https://packages.cloud.google.com/apt cloud-sdk main
+      state: present
 
-    - name: Update apt cache, if older than a day
-      become: yes
-      become_user: root
-      apt:
-        update_cache: yes
-        cache_valid_time: 86400
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
 
-    - name: Install Google Cloud SDK
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: google-cloud-sdk
+  - name: Install Google Cloud SDK
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: google-cloud-sdk

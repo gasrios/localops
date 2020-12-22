@@ -1,5 +1,6 @@
-- name: Install curl
-  import_playbook: curl.yaml
+- hosts: all
+  gather_facts: false
+  tasks:
 
 - name: Create ~/bin and add it to PATH
   import_playbook: create-user-bin.yaml

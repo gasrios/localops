@@ -2,6 +2,7 @@
   import_playbook: curl.yaml
 
 - hosts: all
+  gather_facts: false
   tasks:
 
   - name: Get nvm latest version

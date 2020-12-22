@@ -1,21 +1,22 @@
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Update apt cache, if older than a day
-      become: yes
-      become_user: root
-      apt:
-        update_cache: yes
-        cache_valid_time: 86400
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
 
-    - name: Install direnv
-      become: yes
-      become_user: root
-      apt:
-        pkg: direnv
-        state: latest
+  - name: Install direnv
+    become: yes
+    become_user: root
+    apt:
+      pkg: direnv
+      state: latest
 
-    - name: Enable direnv
-      lineinfile:
-        path: ~/.bashrc
-        line: eval "$(direnv hook bash)"
+  - name: Enable direnv
+    lineinfile:
+      path: ~/.bashrc
+      line: eval "$(direnv hook bash)"

@@ -1,44 +1,45 @@
 # From https://developer.salesforce.com/docs/atlas.en-us.222.0.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm#sfdx_setup_install_cli
 - hosts: all
+  gather_facts: false
   tasks:
 
-    - name: Update apt cache, if older than a day
-      become: yes
-      become_user: root
-      apt:
-        update_cache: yes
-        cache_valid_time: 86400
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
 
-    - name: Install npm
-      become: yes
-      become_user: root
-      apt:
-        state: latest
-        pkg: npm
+  - name: Install npm
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: npm
 
-    # From https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-    - name: Create ~/.npm-global
-      file:
-        path: ~/.npm-global
-        mode: '744'
-        state: directory
+  # From https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+  - name: Create ~/.npm-global
+    file:
+      path: ~/.npm-global
+      mode: '744'
+      state: directory
 
-    - name: Configure npm to use the new directory path
-      shell: npm config set prefix '~/.npm-global'
+  - name: Configure npm to use the new directory path
+    shell: npm config set prefix '~/.npm-global'
 
-    - name: Install the Salesforce CLI
-      npm:
-        name: sfdx-cli
-        global: yes
+  - name: Install the Salesforce CLI
+    npm:
+      name: sfdx-cli
+      global: yes
 
-    - name: Add .npm-global/bin to PATH
-      lineinfile:
-        path: ~/.profile
-        regexp: 'PATH=\$HOME/\.npm-global/bin:\$PATH'
-        line: PATH=$HOME/.npm-global/bin:$PATH
-        backup: yes
+  - name: Add .npm-global/bin to PATH
+    lineinfile:
+      path: ~/.profile
+      regexp: 'PATH=\$HOME/\.npm-global/bin:\$PATH'
+      line: PATH=$HOME/.npm-global/bin:$PATH
+      backup: yes
 
-    - name: Install salesforcedx Plug-In
-      args:
-        executable: /bin/bash
-      shell: 'source ~/.profile && sfdx plugins:install salesforcedx'
+  - name: Install salesforcedx Plug-In
+    args:
+      executable: /bin/bash
+    shell: 'source ~/.profile && sfdx plugins:install salesforcedx'

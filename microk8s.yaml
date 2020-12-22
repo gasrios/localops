@@ -20,6 +20,7 @@
   import_playbook: kubectl.yaml
 
 - hosts: all
+  gather_facts: false
   tasks:
 
   - name: Install microk8s with option --classic

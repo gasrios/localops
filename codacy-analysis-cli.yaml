@@ -2,6 +2,7 @@
   import_playbook: create-user-bin.yaml
 
 - hosts: all
+  gather_facts: false
   tasks:
 
   - name: Get codacy-analysis-cli latest version
