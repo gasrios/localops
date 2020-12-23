@@ -31,3 +31,7 @@
       src: "~/bin/helm-{{ version.stdout }}"
       dest: ~/bin/helm
       state: link
+
+  # https://galaxy.ansible.com/community/kubernetes
+  - name: Install community.kubernetes Ansible collection
+    shell: ansible-galaxy collection install community.kubernetes

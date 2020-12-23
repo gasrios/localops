@@ -1,0 +1,41 @@
+- name: Install Helm
+  import_playbook: helm.yaml
+
+# See https://zero-to-jupyterhub.readthedocs.io/en/latest/jupyterhub/installation.html
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # https://docs.ansible.com/ansible/latest/collections/community/kubernetes/helm_repository_module.html
+  - name: Add JupyterHub Helm repository
+    community.kubernetes.helm_repository:
+      name: jupyterhub
+      repo_url: https://jupyterhub.github.io/helm-chart/
+
+  # https://zero-to-jupyterhub.readthedocs.io/en/latest/jupyterhub/installation.html#prepare-configuration-file
+  - name: Generate a random hex string representing 32 bytes to use as a security token
+    shell: openssl rand -hex 32
+    register: security_token
+
+  - debug:
+      msg: "Security token created, write it down somewhere safe: {{ security_token.stdout }}"
+
+  # https://docs.ansible.com/ansible/latest/collections/community/kubernetes/helm_module.html
+  - name: Install JupyterHub Chart
+    community.kubernetes.helm:
+      name: jupyterhub
+      chart_ref: jupyterhub/jupyterhub
+      namespace: jupyterhub
+      create_namespace: true
+      values:
+        proxy:
+          secretToken: "{{ security_token.stdout }}"
+
+# TODO
+#
+# Events:
+#   Type     Reason            Age                 From               Message
+#   ----     ------            ----                ----               -------
+#   Warning  FailedScheduling  40s (x11 over 10m)  default-scheduler  0/1 nodes are available: 1 pod has unbound immediate PersistentVolumeClaims.
+
+# See https://stackoverflow.com/questions/52668938/pod-has-unbound-persistentvolumeclaims#52669115

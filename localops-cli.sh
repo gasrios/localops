@@ -16,11 +16,8 @@
 #           zero if all commands in the pipeline exit successfully. By
 #           default, pipelines only return a failure if the last command
 #           errors.
-#
-# xtrace: Print a trace of simple commands and their arguments after they
-#         are expanded and before they are executed.
 
-set -o errexit -o nounset -o pipefail -o xtrace
+set -o errexit -o nounset -o pipefail
 
 while [ "$#" -gt 0 ]
 do
