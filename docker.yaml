@@ -5,7 +5,6 @@
   import_playbook: create-user-bin.yaml
 
 - hosts: all
-  gather_facts: false
   tasks:
 
   - name: Add Docker apt repository signing key

@@ -1,14 +1,11 @@
-- hosts: all
-  gather_facts: false
-  tasks:
-
 - name: Create ~/bin and add it to PATH
   import_playbook: create-user-bin.yaml
 
 - hosts: all
+  gather_facts: false
   tasks:
 
-  - name: Get Heml latest version
+  - name: Get Helm latest version
     shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/helm/helm/releases/latest | sed -e 's|.*/||'"
     args:
       warn: false

@@ -6,6 +6,11 @@
   gather_facts: false
   tasks:
 
+  - name: Install PyYAML
+    pip:
+      name: PyYAML
+      state: latest
+
   # https://docs.ansible.com/ansible/latest/collections/community/kubernetes/helm_repository_module.html
   - name: Add JupyterHub Helm repository
     community.kubernetes.helm_repository:
@@ -23,19 +28,11 @@
   # https://docs.ansible.com/ansible/latest/collections/community/kubernetes/helm_module.html
   - name: Install JupyterHub Chart
     community.kubernetes.helm:
-      name: jupyterhub
       chart_ref: jupyterhub/jupyterhub
-      namespace: jupyterhub
+      release_name: jupyterhub
       create_namespace: true
-      values:
+      release_namespace: jupyterhub
+      release_values:
         proxy:
           secretToken: "{{ security_token.stdout }}"
-
-# TODO
-#
-# Events:
-#   Type     Reason            Age                 From               Message
-#   ----     ------            ----                ----               -------
-#   Warning  FailedScheduling  40s (x11 over 10m)  default-scheduler  0/1 nodes are available: 1 pod has unbound immediate PersistentVolumeClaims.
-
-# See https://stackoverflow.com/questions/52668938/pod-has-unbound-persistentvolumeclaims#52669115
+      wait: yes

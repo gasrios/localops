@@ -143,7 +143,7 @@
       mode: '744'
       state: directory
 
-  # FIXME This code is replicated in microk8s.yaml. Refactor using a module
+  # FIXME This code is replicated in kubeval.yaml. Refactor using a module
   - name: Get kubeval latest version
     shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/instrumenta/kubeval/releases/latest | sed -e 's|.*/||'"
     args:
