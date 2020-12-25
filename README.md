@@ -56,14 +56,16 @@ After installation, you can install additional sofwares from the command line by
 * [GitHub CLI](https://cli.github.com/)
 * [Google Chrome](https://www.google.com/chrome)
 * [Google Cloud SDK](https://cloud.google.com/sdk)
+* [Helm](https://helm.sh/)
 * [IntelliJ](https://www.jetbrains.com/idea/)
 * [Java](https://openjdk.java.net/)
 * [Jenkins](https://jenkins.io/)
 * [Jupyter](https://jupyter.org/)
+* [Zero to JupyterHub with Kubernetes](https://zero-to-jupyterhub.readthedocs.io/en/latest/)  **(see note 1 below!)**
 * [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/)
 * [LibreOffice](https://www.libreoffice.org/)
 * [LocalStack](https://localstack.cloud/)
-* [MicroK8s](https://microk8s.io/) **(see note below!)** and [Kubeval](https://github.com/instrumenta/kubeval)
+* [MicroK8s](https://microk8s.io/) **(see note 2 below!)** and [Kubeval](https://github.com/instrumenta/kubeval)
 * [NFS Server](https://tools.ietf.org/html/rfc5661)
 * [Nginx](https://nginx.org/en/)
 * [Packer](https://packer.io/) by Hashicorp
@@ -78,11 +80,8 @@ After installation, you can install additional sofwares from the command line by
 
 Some of the above do nothing beyond installing packages from official Ubuntu repositories, which may seem to be overkill. Still, having a playbook might be useful, as it can be imported by other playbook to orchestrate installation of complex environments, and/or add additional configuration to them.
 
-**Attention MicroK8s users:** MicroK8s [can't reach the internet](https://microk8s.io/docs/troubleshooting#heading--common-issues).
-
-If you need your microk8s cluster to access the Internet, localops provides script [microk8s/ufw-allow-microk8s.sh](https://github.com/gasrios/localops/blob/master/microk8s/ufw-allow-microk8s.sh) to help you configure your firewall. However, localops **DOES NOT** execute it, as this might be a security issue. Please review and customize it as you see fit, given your use cases.
-
-Even after correctly configuring your firewall, you may experience connectivity issues, after rebooting. Running "microk8s stop" before shutting down should prevent them from happening and, even if they do, "microk8s stop" and "microk8s start" should fix them.
+1. MicroK8s [can't reach the internet](https://microk8s.io/docs/troubleshooting#heading--common-issues). If you need your microk8s cluster to access the Internet, localops provides script [microk8s/ufw-allow-microk8s.sh](https://github.com/gasrios/localops/blob/master/microk8s/ufw-allow-microk8s.sh) to help you configure your firewall. However, localops **DOES NOT** execute it, as this might be a security issue. Please review and customize it as you see fit, given your use cases. Even after correctly configuring your firewall, you may experience connectivity issues, after rebooting. Running "microk8s stop" before shutting down should prevent them from happening and, even if they do, "microk8s stop" and "microk8s start" should fix them.
+1. JupyterHub's playbook will install it on the cluster being referred to by your environment variables KUBECONFIG and CONTEXT, which may or may not be local to your computer. If you install MicroK8s using localops, JupyterHub will be installed in it by default.
 
 ## Testing
 
