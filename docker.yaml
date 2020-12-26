@@ -44,13 +44,13 @@
   - name: Install docker-compose
     get_url:
       url: https://github.com/docker/compose/releases/download/{{ version.stdout }}/docker-compose-Linux-x86_64
-      dest: "~/bin/docker-compose-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/docker-compose-{{ version.stdout }}"
       mode: '744'
 
   - name: Create a symbolic link
     file:
-      src: "~/bin/docker-compose-{{ version.stdout }}"
-      dest: ~/bin/docker-compose
+      src: "{{ lookup('env', 'HOME') }}/bin/docker-compose-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/docker-compose"
       state: link
 
   - name: Add this user to group docker

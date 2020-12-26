@@ -18,5 +18,5 @@
 
   - name: Enable direnv
     lineinfile:
-      path: ~/.bashrc
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: eval "$(direnv hook bash)"

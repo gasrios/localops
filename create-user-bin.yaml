@@ -2,24 +2,24 @@
   gather_facts: false
   tasks:
 
-  - name: Create ~/bin
+  - name: Create user bin
     file:
-      path: ~/bin
+      path: "{{ lookup('env', 'HOME') }}/bin"
       mode: '744'
       state: directory
 
   - name: Add ~/bin to PATH
     lineinfile:
-      path: ~/.bashrc
-      line: PATH="$HOME/bin:$PATH"
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: PATH=$HOME/bin:$PATH
 
   - name: Create ~/.local/bin
     file:
-      path: ~/.local/bin
+      path: "{{ lookup('env', 'HOME') }}/.local/bin"
       mode: '744'
       state: directory
 
   - name: Add ~/.local/bin to PATH
     lineinfile:
-      path: ~/.bashrc
-      line: PATH="$HOME/.local/bin:$PATH"
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: PATH=$HOME/.local/bin:$PATH

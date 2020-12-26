@@ -18,11 +18,11 @@
   - name: Copy kubeval binary to ~/bin
     copy:
       src: /tmp/kubeval
-      dest: "~/bin/kubeval-{{ kubeval_version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/kubeval-{{ kubeval_version.stdout }}"
       mode: '0744'
 
   - name: Create a symbolic link
     file:
-      src: "~/bin/kubeval-{{ kubeval_version.stdout }}"
-      dest: ~/bin/kubeval
+      src: "{{ lookup('env', 'HOME') }}/bin/kubeval-{{ kubeval_version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/kubeval"
       state: link

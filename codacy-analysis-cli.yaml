@@ -1,4 +1,4 @@
-- name: Create ~/bin and add it to PATH
+- name: Create user bin and add it to PATH
   import_playbook: create-user-bin.yaml
 
 - hosts: all
@@ -19,10 +19,10 @@
       mode: '744'
 
   - name: Install codacy-analysis-cli
-    shell: "cd /tmp/codacy-analysis-cli-* && make install PREFIX=/tmp && cp /tmp/bin/codacy-analysis-cli ~/bin/codacy-analysis-cli-{{ version.stdout }}"
+    shell: "cd /tmp/codacy-analysis-cli-* && make install PREFIX=/tmp && cp /tmp/bin/codacy-analysis-cli {{ lookup('env', 'HOME') }}/bin/codacy-analysis-cli-{{ version.stdout }}"
 
   - name: Create a symbolic link
     file:
-      src: "~/bin/codacy-analysis-cli-{{ version.stdout }}"
-      dest: ~/bin/codacy-analysis-cli
+      src: "{{ lookup('env', 'HOME') }}/bin/codacy-analysis-cli-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/codacy-analysis-cli"
       state: link

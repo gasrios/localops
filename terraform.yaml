@@ -5,19 +5,11 @@
   gather_facts: false
   tasks:
 
-  - name: Update apt cache, if older than a day
-    become: yes
-    become_user: root
-    apt:
-      update_cache: yes
-      cache_valid_time: 86400
-
-  - name: Install jq
-    become: yes
-    become_user: root
-    apt:
-      state: latest
-      pkg: jq
+  - name: Get Terraform latest version
+    shell: curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/terraform/releases/latest | sed -e 's|.*/v\(.*\)|\1|'
+    args:
+      warn: false
+    register: version
 
   # https://learn.hashicorp.com/terraform/getting-started/install.html#installing-terraform
   #
@@ -28,12 +20,18 @@
 
   - name: Download Terraform
     unarchive:
-      src: https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+      src: "https://releases.hashicorp.com/terraform/{{ version.stdout }}/terraform_{{ version.stdout }}_linux_amd64.zip"
       dest: /tmp
       remote_src: yes
 
   - name: Copy Terraform binary to ~/bin
     copy:
       src: /tmp/terraform
-      dest: /home/{{ ansible_user }}/bin
+      dest: /home/{{ ansible_user }}/bin/terraform-{{ version.stdout }}
       mode: '0744'
+
+  - name: Create a symbolic link
+    file:
+      src: "{{ lookup('env', 'HOME') }}/bin/terraform-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/terraform"
+      state: link

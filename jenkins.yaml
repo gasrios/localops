@@ -2,14 +2,7 @@
 # If you work developing pipelines, having a local Jenkins installation
 # may speed up your development-test-deploy pipeline cycle.
 
-- name: Install Docker registry
-  import_playbook: docker-registry.yaml
-
-- name: Install microk8s
-  import_playbook: microk8s.yaml
-
 - hosts: all
-  gather_facts: false
   # TODO We need "become" and "become_user" here for include_role, and
   # need to repeat then below, for each task. This can't be right.
   become: yes
@@ -139,7 +132,7 @@
     become: yes
     become_user: jenkins
     file:
-      path: ~/bin
+      path: "~/bin"
       mode: '744'
       state: directory
 

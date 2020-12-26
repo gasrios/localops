@@ -20,13 +20,13 @@
   - name: Copy Helm binary to ~/bin
     copy:
       src: /tmp/linux-amd64/helm
-      dest: /home/{{ ansible_user }}/bin/helm-{{ version.stdout }}
+      dest: "{{ lookup('env', 'HOME') }}/bin/helm-{{ version.stdout }}"
       mode: '0744'
 
   - name: Create a symbolic link
     file:
-      src: "~/bin/helm-{{ version.stdout }}"
-      dest: ~/bin/helm
+      src: "{{ lookup('env', 'HOME') }}/bin/helm-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/helm"
       state: link
 
   # https://galaxy.ansible.com/community/kubernetes

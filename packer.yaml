@@ -5,17 +5,23 @@
   gather_facts: false
   tasks:
 
-  - name: Install Chef Workstation, version 0.9.42
+  - name: Install Chef Workstation, version 20.12.205
     become: yes
     become_user: root
     apt:
-      deb: https://packages.chef.io/files/stable/chef-workstation/0.9.42/ubuntu/18.04/chef-workstation_0.9.42-1_amd64.deb
+      deb: https://packages.chef.io/files/stable/chef-workstation/20.12.205/ubuntu/20.04/chef-workstation_20.12.205-1_amd64.deb
 
   - name: Create ~/bin
     file:
-      path: ~/bin
+      path: "{{ lookup('env', 'HOME') }}/bin"
       mode: '744'
       state: directory
+
+  - name: Get Packer latest version
+    shell: curl -Ls -o /dev/null -w %{url_effective} https://github.com/hashicorp/packer/releases/latest | sed -e 's|.*/v\(.*\)|\1|'
+    args:
+      warn: false
+    register: version
 
   # https://www.packer.io/intro/getting-started/install.html#precompiled-binaries
   #
@@ -23,12 +29,18 @@
 
   - name: Download Packer
     unarchive:
-      src: https://releases.hashicorp.com/packer/1.4.3/packer_1.4.3_linux_amd64.zip
+      src: https://releases.hashicorp.com/packer/{{ version.stdout }}/packer_{{ version.stdout }}_linux_amd64.zip
       dest: /tmp
       remote_src: yes
 
   - name: Copy Packer binary to ~/bin
     copy:
       src: /tmp/packer
-      dest: /home/{{ ansible_user }}/bin
+      dest: "{{ lookup('env', 'HOME') }}/bin/packer-{{ version.stdout }}"
       mode: '0744'
+
+  - name: Create a symbolic link
+    file:
+      src: "{{ lookup('env', 'HOME') }}/bin/packer-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/packer"
+      state: link

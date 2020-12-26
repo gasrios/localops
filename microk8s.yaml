@@ -35,7 +35,7 @@
 
   - name: Add /snap/bin to PATH
     lineinfile:
-      path: ~/.bashrc
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: PATH="/snap/bin:$PATH"
 
   # See https://microk8s.io/docs/addons
@@ -54,7 +54,7 @@
 
   - name: Create directory ~/.kube if it does not exist
     file:
-      path: ~/.kube
+      path: "{{ lookup('env', 'HOME') }}/.kube"
       state: directory
       owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
@@ -65,29 +65,29 @@
   - name: Copy /var/snap/microk8s/current/credentials/kubelet.config to ~/.kube/microk8s
     become: yes
     become_user: root
-    shell: "cp -f /var/snap/microk8s/current/credentials/kubelet.config /home/{{ ansible_user }}/.kube/microk8s"
+    shell: "cp -f /var/snap/microk8s/current/credentials/kubelet.config {{ lookup('env', 'HOME') }}/.kube/microk8s"
 
   - name: Change ownership, group and permissions of ~/.kube/microk8s
     become: yes
     become_user: root
     file:
-      path: "/home/{{ ansible_user }}/.kube/microk8s"
+      path: "{{ lookup('env', 'HOME') }}/.kube/microk8s"
       owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
       mode: '0600'
 
   - name: Create file "~/.envrc" if it does not exist
     file:
-      path: "~/.envrc"
+      path: "{{ lookup('env', 'HOME') }}/.envrc"
       state: touch
       owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
 
   - name: Add microk8s KUBECONFIG configuration to ~/.envrc
     blockinfile:
-      path: ~/.envrc
+      path: "{{ lookup('env', 'HOME') }}/.envrc"
       block: |
-        export KUBECONFIG=~/.kube/microk8s
+        export KUBECONFIG=$HOME/.kube/microk8s
         export CONTEXT=microk8s
 
   - name: Update direnv config

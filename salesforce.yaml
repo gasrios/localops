@@ -20,12 +20,12 @@
   # From https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
   - name: Create ~/.npm-global
     file:
-      path: ~/.npm-global
+      path: "{{ lookup('env', 'HOME') }}/.npm-global"
       mode: '744'
       state: directory
 
   - name: Configure npm to use the new directory path
-    shell: npm config set prefix '~/.npm-global'
+    shell: "npm config set prefix \"{{ lookup('env', 'HOME') }}/.npm-global\""
 
   - name: Install the Salesforce CLI
     npm:
@@ -34,12 +34,10 @@
 
   - name: Add .npm-global/bin to PATH
     lineinfile:
-      path: ~/.profile
-      regexp: 'PATH=\$HOME/\.npm-global/bin:\$PATH'
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: PATH=$HOME/.npm-global/bin:$PATH
-      backup: yes
 
   - name: Install salesforcedx Plug-In
     args:
       executable: /bin/bash
-    shell: 'source ~/.profile && sfdx plugins:install salesforcedx'
+    shell: "source {{ lookup('env', 'HOME') }}/.bashrc && sfdx plugins:install salesforcedx"

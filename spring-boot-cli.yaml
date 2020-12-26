@@ -25,28 +25,28 @@
   - name: Copy Spring Boot CLI binary to ~/bin
     copy:
       src: /tmp/spring-{{ version.stdout }}.BUILD-SNAPSHOT/bin/spring
-      dest: /home/{{ ansible_user }}/bin/spring-{{ version.stdout }}
+      dest: "{{ lookup('env', 'HOME') }}/bin/spring-{{ version.stdout }}"
       mode: '0744'
 
   - name: Create ~/lib
     file:
-      path: ~/lib
+      path: "{{ lookup('env', 'HOME') }}/lib"
       mode: '744'
       state: directory
 
   - name: Copy Spring Boot CLI binary to ~/lib
     copy:
       src: /tmp/spring-2.3.4.BUILD-SNAPSHOT/lib/spring-boot-cli-{{ version.stdout }}.BUILD-SNAPSHOT.jar
-      dest: "/home/{{ ansible_user }}/lib"
+      dest: "{{ lookup('env', 'HOME') }}/lib"
       mode: '0744'
 
   - name: Create a symbolic link
     file:
-      src: "~/bin/spring-{{ version.stdout }}"
-      dest: ~/bin/spring
+      src: "{{ lookup('env', 'HOME') }}/bin/spring-{{ version.stdout }}"
+      dest: "{{ lookup('env', 'HOME') }}/bin/spring"
       state: link
 
   - name: Install Spring Cloud latest version
-    shell: spring install org.springframework.cloud:spring-cloud-cli:2.2.0.BUILD-SNAPSHOT
+    shell: spring install org.springframework.cloud:spring-cloud-cli:3.0.0
 
   # FIXME Still not working, try "spring cloud kafka"
