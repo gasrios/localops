@@ -9,22 +9,20 @@
   tasks:
 
   - name: Get Spring Boot CLI latest version
-    shell: >
-      curl -Ls -o /dev/null -w %{url_effective} https://github.com/spring-projects/spring-boot/releases/latest
-      | sed -e 's|.*/v\(.*\)\.RELEASE|\1|'
+    shell: curl -Ls -o /dev/null -w %{url_effective} https://github.com/spring-projects/spring-boot/releases/latest | sed -e 's|.*/v\(.*\)|\1|'
     args:
       warn: false
     register: version
 
   - name: Download Spring Boot CLI
     unarchive:
-      src: https://repo.spring.io/snapshot/org/springframework/boot/spring-boot-cli/{{ version.stdout }}.BUILD-SNAPSHOT/spring-boot-cli-{{ version.stdout }}.BUILD-SNAPSHOT-bin.tar.gz
+      src: "https://repo.spring.io/release/org/springframework/boot/spring-boot-cli/{{ version.stdout }}/spring-boot-cli-{{ version.stdout }}-bin.tar.gz"
       dest: /tmp
       remote_src: yes
 
   - name: Copy Spring Boot CLI binary to ~/bin
     copy:
-      src: /tmp/spring-{{ version.stdout }}.BUILD-SNAPSHOT/bin/spring
+      src: /tmp/spring-{{ version.stdout }}/bin/spring
       dest: "{{ lookup('env', 'HOME') }}/bin/spring-{{ version.stdout }}"
       mode: '0744'
 
@@ -34,9 +32,9 @@
       mode: '744'
       state: directory
 
-  - name: Copy Spring Boot CLI binary to ~/lib
+  - name: Copy Spring Boot CLI library to ~/lib
     copy:
-      src: /tmp/spring-2.3.4.BUILD-SNAPSHOT/lib/spring-boot-cli-{{ version.stdout }}.BUILD-SNAPSHOT.jar
+      src: "/tmp/spring-{{ version.stdout }}/lib/spring-boot-cli-{{ version.stdout }}.jar"
       dest: "{{ lookup('env', 'HOME') }}/lib"
       mode: '0744'
 
@@ -45,8 +43,3 @@
       src: "{{ lookup('env', 'HOME') }}/bin/spring-{{ version.stdout }}"
       dest: "{{ lookup('env', 'HOME') }}/bin/spring"
       state: link
-
-  - name: Install Spring Cloud latest version
-    shell: spring install org.springframework.cloud:spring-cloud-cli:3.0.0
-
-  # FIXME Still not working, try "spring cloud kafka"

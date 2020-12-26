@@ -27,7 +27,7 @@
   - name: Copy Terraform binary to ~/bin
     copy:
       src: /tmp/terraform
-      dest: /home/{{ ansible_user }}/bin/terraform-{{ version.stdout }}
+      dest: "{{ lookup('env', 'HOME') }}/bin/terraform-{{ version.stdout }}"
       mode: '0744'
 
   - name: Create a symbolic link

@@ -128,11 +128,11 @@
 #      daemon_reload: yes
 
   # FIXME create-user-bin.yaml should be a module and this duplicated code, removed
-  - name: Create ~/bin
+  - name: Create /var/lib/jenkins/bin
     become: yes
     become_user: jenkins
     file:
-      path: "~/bin"
+      path: "/var/lib/jenkins/bin"
       mode: '744'
       state: directory
 
@@ -151,23 +151,23 @@
       dest: /tmp
       remote_src: yes
 
-  - name: Copy kubeval binary to ~/bin
+  - name: Copy kubeval binary to /var/lib/jenkins/bin
     become: yes
     become_user: jenkins
     copy:
       src: /tmp/kubeval
-      dest: "~/bin/kubeval-{{ kubeval_version.stdout }}"
+      dest: "/var/lib/jenkins/bin/kubeval-{{ kubeval_version.stdout }}"
       mode: '0744'
 
   - name: Create a symbolic link
     become: yes
     become_user: jenkins
     file:
-      src: "~/bin/kubeval-{{ kubeval_version.stdout }}"
-      dest: ~/bin/kubeval
+      src: "/var/lib/jenkins/bin/kubeval-{{ kubeval_version.stdout }}"
+      dest: /var/lib/jenkins/bin/kubeval
       state: link
 
-  # TODO Configure KUBECONFIG, and PATH including ~/bin
+  # TODO Configure KUBECONFIG, and PATH including /var/lib/jenkins/bin
 
   # TODO Create namespaces and contexts for "test" and "prod" environments
 
