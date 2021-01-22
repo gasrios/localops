@@ -1,10 +1,22 @@
-# bootstrap.sh automated test
+# Ubuntu 18.04 base image used for localops test.
+#
+# We do not need to run the steps below every time we want to test,
+# and they are very time consuming.
 
-FROM localops:ubuntu-18.04-base
+FROM ubuntu:18.04
 
-COPY . /home/test/localops
+RUN apt update
 
-RUN chown -R test:test /home/test/localops
+RUN DEBIAN_FRONTEND=noninteractive apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
 
-# TODO Add script to test all playbooks
+RUN DEBIAN_FRONTEND=noninteractive apt install --assume-yes sudo ubuntu-standard python3-distutils git
+
+RUN useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel
+
+RUN passwd -d test
+
+RUN addgroup test sudo
+
+ENTRYPOINT ["/bin/bash", "-c"]
+
 CMD ["su test -c 'cd ~/localops && ./bootstrap.sh'"]
