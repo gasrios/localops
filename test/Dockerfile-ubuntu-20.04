@@ -1,10 +1,25 @@
-# bootstrap.sh automated test
+# Ubuntu 20.04 base image used for localops test.
+#
+# We do not need to run the steps below every time we want to test,
+# and they are very time consuming.
 
-FROM localops:ubuntu-20.04-base
+FROM ubuntu:20.04
 
-COPY . /home/test/localops
+# See https://bugs.launchpad.net/ubuntu/+source/command-not-found/+bug/1876034
+RUN rm /etc/apt/apt.conf.d/docker-gzip-indexes
 
-RUN chown -R test:test /home/test/localops
+RUN apt update
 
-# TODO Add script to test all playbooks
-CMD ["su test -c 'cd ~/localops && ./bootstrap.sh'"]
+RUN DEBIAN_FRONTEND=noninteractive apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+
+RUN DEBIAN_FRONTEND=noninteractive apt install --assume-yes sudo ubuntu-standard python3-distutils git
+
+RUN useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel
+
+RUN passwd -d test
+
+RUN addgroup test sudo
+
+ENTRYPOINT ["/bin/bash", "-c"]
+
+CMD ["su test -c './bootstrap.sh'"]
