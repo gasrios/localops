@@ -85,47 +85,9 @@ Some of the above do nothing beyond installing packages from official Ubuntu rep
 
 ## Testing
 
-* [test/prepare-test.sh](https://github.com/gasrios/localops/blob/master/test/prepare-test.sh) creates "base" Docker test images. "Vanilla" Ubuntu Docker images do not have all the packages you would expect to find in an Ubuntu desktop, so we add the bare minimum that ensurer compatibility.
+* [test/setup.sh](https://github.com/gasrios/localops/blob/master/test/setup.sh) creates "test" Docker images. "Vanilla" Ubuntu Docker images do not have all the packages you would expect to find in an Ubuntu desktop, so we add the bare minimum that ensure compatibility.
 
 * [test/test.sh](https://github.com/gasrios/localops/blob/master/test/test.sh) runs the installation process in all supported environments.
-
-A few Docker commands that might help (**use them carefully, as they might delete other Docker images and containers you have available locally**):
-
-```
-# Lists all existing images and containers
-clear; docker image ls -a; echo; docker container ls -a
-
-# Deletes test containers
-docker container rm $(docker container ls -a | egrep '/bin/bash' | awk '{print $1}')
-
-# Deletes test images
-docker image rm localops:ubuntu-20.04
-docker image rm localops:ubuntu-18.04
-
-# Runs images in "manual test" mode
-docker run -it localops:ubuntu-20.04 '/bin/bash'
-docker run -it localops:ubuntu-18.04 '/bin/bash'
-
-# Backups base test images
-docker save --output ~/localops_images/ubuntu-18.04-base.tar ${UBUNTU_18.04_IMAGE_ID}
-docker save --output ~/localops_images/ubuntu-20.04-base.tar ${UBUNTU_20.04_IMAGE_ID}
-
-# Cleans up all images (removes intermediary images)
-docker image prune -fa
-
-# Restores backups
-docker load --input ~/localops_images/ubuntu-18.04-base.tar
-docker load --input ~/localops_images/ubuntu-20.04-base.tar
-
-# Tags are lost after restoring, recreate them
-docker tag ${UBUNTU_18.04_IMAGE_ID} localops:ubuntu-18.04-base
-docker tag ${UBUNTU_20.04_IMAGE_ID} localops:ubuntu-20.04-base
-
-# Creates "tested" images from the containers, with localps already istalled, you can
-# use while testing your own playbooks
-docker commit ${UBUNTU_20.04_CONTAINER_ID} localops:ubuntu-20.04
-docker commit ${UBUNTU_18.04_CONTAINER_ID} localops:ubuntu-18.04
-```
 _____
 ## Copyright & License
 
