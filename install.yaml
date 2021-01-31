@@ -1,0 +1,27 @@
+- name: Install direnv
+  import_playbook: direnv.yaml
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Check whether file .envrc exists
+    stat:
+      path: .envrc
+    register: envrc
+
+  - name: Create .envrc
+    file:
+      path: .envrc
+      state: touch
+    when: not envrc.stat.exists
+
+  - name: Add /opt/python-3.9.1/bin and $HOME/.local/bin to local PATH using direnv
+    blockinfile:
+      path: .envrc
+      block: |
+        export PATH=/opt/python-3.9.1/bin:$PATH
+        export PATH=$HOME/.local/bin:$PATH
+
+  - name: Enable direnv in this dir
+    shell: eval "$(direnv hook bash)" && direnv allow
