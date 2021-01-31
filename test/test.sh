@@ -2,8 +2,9 @@
 
 set -eux
 
-for DISTRO in localops:ubuntu-18.04-test localops:ubuntu-20.04-test
+./bootstrap.sh
+
+for PLAYBOOK in $(ls *.yaml)
 do
-    docker run --rm -itv $(pwd)/..:/home/test/localops -w /home/test/localops ${DISTRO}
-    rm ../.envrc
+    sh -c "export PATH=$HOME/.local/bin:/opt/python-3.9.1/bin:$PATH && ./localops-cli.sh $PLAYBOOK"
 done

@@ -22,4 +22,4 @@ RUN addgroup test sudo
 
 ENTRYPOINT ["/bin/bash", "-c"]
 
-CMD ["su test -c './bootstrap.sh'"]
+CMD ["su test -c 'test/test.sh'"]

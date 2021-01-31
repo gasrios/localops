@@ -2,7 +2,19 @@
   gather_facts: false
   tasks:
 
+  - name: Get PATH
+    shell: echo $PATH
+    args:
+      warn: false
+    register: path
+
+  - name: Show PATH
+    debug:
+      msg: "{{ path.stdout }}"
+
   - name: Install AWS CLI
     pip:
       name: awscli
       state: latest
+      executable: pip
+      extra_args: --user
