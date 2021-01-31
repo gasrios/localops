@@ -42,7 +42,7 @@
     become: yes
     become_user: root
     user:
-      name: "{{ ansible_user_id }}"
+      name: "{{ lookup('env', 'USER') }}"
       groups: nfs-mount
       append: yes
 

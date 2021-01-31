@@ -12,14 +12,3 @@
     lineinfile:
       path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: PATH=$HOME/bin:$PATH
-
-  - name: Create ~/.local/bin
-    file:
-      path: "{{ lookup('env', 'HOME') }}/.local/bin"
-      mode: '744'
-      state: directory
-
-  - name: Add ~/.local/bin to PATH
-    lineinfile:
-      path: "{{ lookup('env', 'HOME') }}/.bashrc"
-      line: PATH=$HOME/.local/bin:$PATH

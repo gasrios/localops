@@ -48,7 +48,7 @@
     become: yes
     become_user: root
     user:
-      name: "{{ ansible_user_id }}"
+      name: "{{ lookup('env', 'USER') }}"
       groups: microk8s
       append: yes
 
@@ -56,9 +56,6 @@
     file:
       path: "{{ lookup('env', 'HOME') }}/.kube"
       state: directory
-      owner: "{{ ansible_user }}"
-      group: "{{ ansible_user }}"
-      mode: '0755'
 
   # Why not use Ansible copy? It won't read the file, even with become_user
   # FIXME Should not rely on home dir being at /home
@@ -72,16 +69,14 @@
     become_user: root
     file:
       path: "{{ lookup('env', 'HOME') }}/.kube/microk8s"
-      owner: "{{ ansible_user }}"
-      group: "{{ ansible_user }}"
+      owner: "{{ lookup('env', 'USER') }}"
+      group: "{{ lookup('env', 'USER') }}"
       mode: '0600'
 
   - name: Create file "~/.envrc" if it does not exist
     file:
       path: "{{ lookup('env', 'HOME') }}/.envrc"
       state: touch
-      owner: "{{ ansible_user }}"
-      group: "{{ ansible_user }}"
 
   - name: Add microk8s KUBECONFIG configuration to ~/.envrc
     blockinfile:
