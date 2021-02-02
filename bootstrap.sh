@@ -16,7 +16,7 @@ then
     wget -SO- https://raw.githubusercontent.com/gasrios/p4lo/main/repository/${DISTRO}-${DISTRO_VERSION}-${PYTHON_VERSION}.tbz \
     | sudo tar xvj --directory /
     sudo /opt/python-${PYTHON_VERSION}/bin/pip install --no-cache-dir --upgrade pip
-    PATH=~/.local/bin:/opt/python-${PYTHON_VERSION}/bin:$PATH
+    PATH=$HOME/.local/bin:/opt/python-${PYTHON_VERSION}/bin:$PATH
     pip install ansible
     ./localops-cli.sh install.yaml
 fi

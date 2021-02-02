@@ -8,7 +8,24 @@
       mode: '744'
       state: directory
 
-  - name: Add ~/bin to PATH
+  - name: Check whether .bashrc exists
+    stat:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+    register: bashrc
+
+  - name: Add ~/bin to PATH, Bash version
     lineinfile:
       path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: PATH=$HOME/bin:$PATH
+    when: envrc.bashrc.exists
+
+  - name: Check whether .zshrc exists
+    stat:
+      path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    register: zshrc
+
+  - name: Add ~/bin to PATH, zsh version
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.zshrc"
+      line: PATH=$HOME/bin:$PATH
+    when: envrc.zshrc.exists

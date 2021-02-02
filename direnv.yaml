@@ -16,7 +16,24 @@
       pkg: direnv
       state: latest
 
-  - name: Enable direnv
+  - name: Check whether .bashrc exists
+    stat:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+    register: bashrc
+
+  - name: Enable direnv in Bash
     lineinfile:
       path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: eval "$(direnv hook bash)"
+    when: envrc.bashrc.exists
+
+  - name: Check whether .zshrc exists
+    stat:
+      path: "{{ lookup('env', 'HOME') }}/.zshrc"
+    register: zshrc
+
+  - name: Enable direnv in zsh
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.zshrc"
+      line: eval "$(direnv hook zsh)"
+    when: envrc.zshrc.exists
