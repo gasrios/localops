@@ -1,22 +1,5 @@
-- hosts: all
-  gather_facts: false
-  tasks:
+- name: Install direnv, root
+  import_playbook: root/direnv.yaml
 
-  - name: Update apt cache, if older than a day
-    become: yes
-    become_user: root
-    apt:
-      update_cache: yes
-      cache_valid_time: 86400
-
-  - name: Install direnv
-    become: yes
-    become_user: root
-    apt:
-      pkg: direnv
-      state: latest
-
-  - name: Enable direnv
-    lineinfile:
-      path: "{{ lookup('env', 'HOME') }}/.bashrc"
-      line: eval "$(direnv hook bash)"
+- name: Install direnv, user
+  import_playbook: user/direnv.yaml

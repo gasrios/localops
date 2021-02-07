@@ -29,6 +29,8 @@
       path: /etc/ssl/private/jenkins.localhost.key
 
   - name: Look for Jenkins certificate
+    become: yes
+    become_user: root
     stat:
       path: /etc/ssl/certs/jenkins.localhost.crt
     register: jenkins_certificate

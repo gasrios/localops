@@ -1,0 +1,9 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Install dropbox daemon
+    shell: dropbox start -i
+
+  - name: Autostart Dropbox
+    shell: dropbox autostart y

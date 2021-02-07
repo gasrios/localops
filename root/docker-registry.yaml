@@ -93,6 +93,8 @@
       path: /etc/ssl/private/docker.localhost.key
 
   - name: Look for Docker registry certificate
+    become: yes
+    become_user: root
     stat:
       path: /etc/ssl/certs/docker.localhost.crt
     register: docker_registry_certificate

@@ -43,6 +43,16 @@ After installation, you can install additional sofwares from the command line by
 
 `./localops-cli.sh ${PLAYBOOK_NAME}`
 
+## Security
+
+Playbooks are split into three categories:
+
+* [root](https://github.com/gasrios/localops/tree/master/root): playbooks that run as root and make system wide changes.
+* [user](https://github.com/gasrios/localops/tree/master/user): playbooks that need no special permissions and make changes only to the environment local to the user running them.
+* [other](https://github.com/gasrios/localops): "meta playbooks" that invoke both root and user playbooks.
+
+This separation supports use cases in which separation of responsibilities is necessary, because your non root user has no sudo permissions, and those more common, and less secure, situations when your regular user can sudo.
+
 ## Currently Available Playbooks
 
 * [AWS Command Line Interface](https://aws.amazon.com/cli/)
@@ -93,6 +103,6 @@ _____
 
 The following copyright notice applies to all files in localops, unless otherwise indicated in the file.
 
-### © 2020 Guilherme Rios All Rights Reserved
+### © 2021 Guilherme Rios All Rights Reserved
 
 All files in localops are licensed under the [MIT License](https://github.com/gasrios/localops/blob/master/LICENSE), unless otherwise indicated in the file.

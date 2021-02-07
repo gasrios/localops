@@ -1,0 +1,10 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Install Intellij with classic confinement
+    become: yes
+    become_user: root
+    snap:
+      name: intellij-idea-community
+      classic: yes

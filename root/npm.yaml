@@ -1,0 +1,18 @@
+# From https://developer.salesforce.com/docs/atlas.en-us.222.0.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm#sfdx_setup_install_cli
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install npm
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: npm

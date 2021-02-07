@@ -1,0 +1,33 @@
+- hosts: all
+  tasks:
+
+  - name: Add Docker apt repository signing key
+    become: yes
+    become_user: root
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker apt repo
+    become: yes
+    become_user: root
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+      state: present
+
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install Docker
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: docker-ce
+
+  - debug:
+      msg: Docker installation complete. Individual users must be added to group "docker" to be able to use it.

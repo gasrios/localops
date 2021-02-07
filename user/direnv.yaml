@@ -1,0 +1,8 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Enable direnv
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: eval "$(direnv hook bash)"
