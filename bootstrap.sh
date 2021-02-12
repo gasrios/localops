@@ -2,35 +2,43 @@
 
 set -eux
 
-if [ -z "$(which ansible)" ]
-then
-    PYTHON_VERSION=3.9.1
+#
+# Distribution dependent setup goes in this function
+#
+distro_dependent_setup() {
+  DISTRO=$(egrep '^ID=' /etc/os-release | sed 's/^ID="\?\([^"]*\)"\?/\1/')
 
+  case "${DISTRO}" in
+  ubuntu)
+    export DEBIAN_FRONTEND=noninteractive
+    $(which sudo) apt update
+    $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+    # TODO We need python-is-python3, but should python3-pip be uninstalled?
+    $(which sudo) apt install --assume-yes python-is-python3 python3-pip
+  ;;
+  *)
+    echo "Unsupported distro ${DISTRO}"
+    false
+  ;;
+  esac
+}
+
+if [ -z "$(which ansible-playbook)" ]
+then
+  if [ -z "$(which pip || which pip3)" ]
+  then
     if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
     then
-        DEBIAN_FRONTEND=noninteractive
-        $(which sudo) apt update
-        $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-        $(which sudo) apt install curl direnv --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-
-        DISTRO=$(egrep '^ID=' /etc/os-release | sed 's/^ID="\?\([^"]*\)"\?/\1/')
-        DISTRO_VERSION=$(egrep '^VERSION_ID=' /etc/os-release | sed 's/^VERSION_ID="\?\([^"]*\)"\?/\1/')
-
-        curl --silent --output - https://raw.githubusercontent.com/gasrios/p4lo/main/repository/${DISTRO}-${DISTRO_VERSION}-${PYTHON_VERSION}.tbz \
-        | $(which sudo) tar xvj --directory /
-    fi
-
-    if [ -e /opt/python-${PYTHON_VERSION}/bin/pip ]
-    then
-        export PATH=${HOME}/.local/bin:/opt/python-${PYTHON_VERSION}/bin:$PATH
+      distro_dependent_setup
     else
-        echo "Ansible is not installed and cannot be installed by user $(whoami). Install it and try again."
-        false
+      echo "Neither Ansible nor pip are installed, and cannot be installed by user $(whoami)."
+      false
     fi
-
-    pip install --no-cache-dir --upgrade pip
-    pip install --no-cache-dir --upgrade wheel
-    pip install --no-cache-dir --upgrade ansible
+  fi
+  export PATH=${HOME}/.local/bin:${PATH}
+  $(which pip || which pip3) install --no-cache-dir --upgrade --force-reinstall --user pip
+  $(which pip || which pip3) install --no-cache-dir --upgrade --force-reinstall --user wheel
+  $(which pip || which pip3) install --no-cache-dir --upgrade --force-reinstall --user ansible
 fi
 
 ./localops-cli.sh install.yaml
