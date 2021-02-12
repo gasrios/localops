@@ -13,8 +13,7 @@ distro_dependent_setup() {
     export DEBIAN_FRONTEND=noninteractive
     $(which sudo) apt update
     $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-    # TODO We need python-is-python3, but should python3-pip be uninstalled?
-    $(which sudo) apt install --assume-yes python-is-python3 python3-pip
+    $(which sudo) apt install --assume-yes python3-pip
   ;;
   *)
     echo "Unsupported distro ${DISTRO}"
@@ -25,7 +24,7 @@ distro_dependent_setup() {
 
 if [ -z "$(which ansible-playbook)" ]
 then
-  if [ -z "$(which pip || which pip3)" ]
+  if [ -z "$(which pip3 || which pip)" ]
   then
     if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
     then
@@ -36,9 +35,9 @@ then
     fi
   fi
   export PATH=${HOME}/.local/bin:${PATH}
-  $(which pip || which pip3) install --no-cache-dir --upgrade --force-reinstall --user pip
-  $(which pip || which pip3) install --no-cache-dir --upgrade --force-reinstall --user wheel
-  $(which pip || which pip3) install --no-cache-dir --upgrade --force-reinstall --user ansible
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user pip
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user wheel
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user ansible
 fi
 
 ./localops-cli.sh install.yaml

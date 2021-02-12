@@ -1,0 +1,27 @@
+# List of playbooks to test, without redundancies
+./dropbox.yaml
+./intellij.yaml
+./microk8s.yaml
+./packer.yaml
+./root/docker-registry.yaml
+./root/github-cli.yaml
+./root/google-chrome.yaml
+./root/google-cloud-sdk.yaml
+./root/java.yaml
+./root/jenkins.yaml
+./root/kubectl.yaml
+./root/libreoffice.yaml
+./root/nfs.yaml
+./root/slack.yaml
+./root/spotify.yaml
+./root/visual-studio-code.yaml
+./user/aws-cli.yaml
+./user/codacy-analysis-cli.yaml
+./user/docker-compose.yaml
+./user/jupyterhub.yaml
+./user/jupyter.yaml
+./user/kubeval.yaml
+./user/localstack.yaml
+./user/salesforce.yaml
+./user/spring-boot-cli.yaml
+./user/terraform.yaml

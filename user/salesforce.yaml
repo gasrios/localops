@@ -6,16 +6,6 @@
   gather_facts: false
   tasks:
 
-  # From https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-  - name: Create ~/.npm-global
-    file:
-      path: "{{ lookup('env', 'HOME') }}/.npm-global"
-      mode: '744'
-      state: directory
-
-  - name: Configure npm to use the new directory path
-    shell: "npm config set prefix \"{{ lookup('env', 'HOME') }}/.npm-global\""
-
   - name: Install the Salesforce CLI
     npm:
       name: sfdx-cli
