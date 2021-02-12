@@ -21,7 +21,7 @@
   - name: Add /opt/python-3.9.1/bin to local PATH using direnv
     lineinfile:
       path: .envrc
-      line: export PATH=/opt/python-3.9.1/bin:$PATH
+      line: export PATH=${HOME}/.local/bin:/opt/python-3.9.1/bin:$PATH
 
   - name: Enable direnv in this dir
     shell: eval "$(direnv hook bash)" && direnv allow

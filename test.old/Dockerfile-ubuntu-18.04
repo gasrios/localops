@@ -1,12 +1,9 @@
-# Ubuntu 20.04 base image used for localops test.
+# Ubuntu 18.04 base image used for localops test.
 #
 # We do not need to run the steps below every time we want to test,
 # and they are very time consuming.
 
-FROM ubuntu:20.04
-
-# See https://bugs.launchpad.net/ubuntu/+source/command-not-found/+bug/1876034
-RUN rm /etc/apt/apt.conf.d/docker-gzip-indexes
+FROM ubuntu:18.04
 
 RUN apt update
 
@@ -20,12 +17,6 @@ RUN passwd -d test
 
 RUN addgroup test sudo
 
-COPY . /home/test/localops/
+ENTRYPOINT ["/bin/bash", "-c"]
 
-RUN chown -R test:test /home/test/localops
-
-RUN su test -c 'cd /home/test/localops && ./bootstrap.sh'
-
-RUN rm -rf /home/test/localops
-
-ENTRYPOINT ["su", "test", "-c"]
+CMD ["su test -c './bootstrap.sh'"]

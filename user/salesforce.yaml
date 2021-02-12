@@ -1,3 +1,6 @@
+- name: Install Node.js
+  import_playbook: nodejs.yaml
+
 # From https://developer.salesforce.com/docs/atlas.en-us.222.0.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm#sfdx_setup_install_cli
 - hosts: all
   gather_facts: false
@@ -26,4 +29,4 @@
   - name: Install salesforcedx Plug-In
     args:
       executable: /bin/bash
-    shell: "source {{ lookup('env', 'HOME') }}/.bashrc && sfdx plugins:install salesforcedx"
+    shell: "{{ lookup('env', 'HOME') }}/.npm-global/bin/sfdx plugins:install salesforcedx"

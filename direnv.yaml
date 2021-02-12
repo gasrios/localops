@@ -1,5 +1,0 @@
-- name: Install direnv, root
-  import_playbook: root/direnv.yaml
-
-- name: Install direnv, user
-  import_playbook: user/direnv.yaml

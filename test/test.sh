@@ -1,9 +1,18 @@
 #!/usr/bin/env sh
 
-set -eux
+set -eu
 
-for DISTRO in localops:ubuntu-18.04-test localops:ubuntu-20.04-test
+export PLAYBOOK=$(echo $1 | sed 's/\.\.\///')
+
+cd ..
+
+for DISTRO in localops:ubuntu-18.04 localops:ubuntu-20.04
 do
-    docker run --rm -itv $(pwd)/..:/home/test/localops -w /home/test/localops ${DISTRO}
-    rm ../.envrc
+    docker run \
+        --rm \
+        -it \
+        -v $(pwd):/home/test/localops \
+        -w /home/test/localops \
+        ${DISTRO} \
+        "''. ~/.profile && ./localops-cli.sh $PLAYBOOK && ./localops-cli.sh $PLAYBOOK''"
 done

@@ -1,5 +1,0 @@
-- name: Install Salesforce, root
-  import_playbook: root/salesforce.yaml
-
-- name: Install Salesforce, user
-  import_playbook: user/salesforce.yaml

@@ -79,7 +79,6 @@ This separation supports use cases in which separation of responsibilities is ne
 * [NFS Server](https://tools.ietf.org/html/rfc5661)
 * [Nginx](https://nginx.org/en/)
 * [Packer](https://packer.io/) by Hashicorp
-* [Pulse Secure](https://www.pulsesecure.net/)
 * [Salesforce](https://www.salesforce.com/)
 * [Slack](https://slack.com/)
 * [Spotify for Linux](https://www.spotify.com/br/download/linux/)
