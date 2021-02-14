@@ -57,10 +57,10 @@ This separation supports use cases in which separation of responsibilities is ne
 
 * [AWS Command Line Interface](https://aws.amazon.com/cli/)
 * Local [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority)
+* [Chef Workstation](https://docs.chef.io/workstation/)
 * [Codacy Analysis CLI](https://github.com/codacy/codacy-analysis-cli)
-* [curl](https://curl.haxx.se/)
-* [direnv](https://github.com/direnv/direnv)
 * [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
 * [Docker local registry](https://docs.docker.com/registry/insecure/) as [systemctl](https://www.freedesktop.org/software/systemd/man/systemctl.html) service
 * [Dropbox](https://www.dropbox.com/)
 * [GitHub CLI](https://cli.github.com/)
@@ -73,18 +73,19 @@ This separation supports use cases in which separation of responsibilities is ne
 * [Jupyter](https://jupyter.org/)
 * [Zero to JupyterHub with Kubernetes](https://zero-to-jupyterhub.readthedocs.io/en/latest/)  **(see note 1 below!)**
 * [kubectl CLI](https://kubernetes.io/docs/reference/kubectl/)
+* [Kubeval](https://www.kubeval.com/)
 * [LibreOffice](https://www.libreoffice.org/)
 * [LocalStack](https://localstack.cloud/)
 * [MicroK8s](https://microk8s.io/) **(see note 2 below!)** and [Kubeval](https://github.com/instrumenta/kubeval)
 * [NFS Server](https://tools.ietf.org/html/rfc5661)
 * [Nginx](https://nginx.org/en/)
+* [Node.js](https://nodejs.org/en/)
 * [Packer](https://packer.io/) by Hashicorp
 * [Salesforce](https://www.salesforce.com/)
 * [Slack](https://slack.com/)
 * [Spotify for Linux](https://www.spotify.com/br/download/linux/)
-* [Spring Cloud CLI](https://spring.io/projects/spring-cloud-cli)
+* [Spring Boot CLI](https://javasterling.com/spring-boot/spring-boot-cli)
 * [Terraform](https://www.terraform.io/) by Hashicorp
-* [VirtualBox](https://www.virtualbox.org/)
 * [Visual Studio Code](https://code.visualstudio.com/)
 
 Some of the above do nothing beyond installing packages from official Ubuntu repositories, which may seem to be overkill. Still, having a playbook might be useful, as it can be imported by other playbook to orchestrate installation of complex environments, and/or add additional configuration to them.
