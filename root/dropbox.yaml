@@ -1,0 +1,39 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Add Dropbox apt repository signing key
+    become: yes
+    become_user: root
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
+      state: present
+
+  - name: Add Dropbox apt repo
+    become: yes
+    become_user: root
+    apt_repository:
+      repo: deb [arch=amd64] http://linux.dropbox.com/ubuntu bionic main
+      state: present
+
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install python3-gpg
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: python3-gpg
+
+  - name: Install Dropbox
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: dropbox

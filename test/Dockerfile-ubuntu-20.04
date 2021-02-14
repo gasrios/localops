@@ -20,6 +20,12 @@ RUN passwd -d test
 
 RUN addgroup test sudo
 
-ENTRYPOINT ["/bin/bash", "-c"]
+COPY . /home/test/localops/
 
-CMD ["su test -c './bootstrap.sh'"]
+RUN chown -R test:test /home/test/localops
+
+RUN su test -c 'cd /home/test/localops && ./bootstrap.sh'
+
+RUN rm -rf /home/test/localops
+
+ENTRYPOINT ["su", "test", "-c"]

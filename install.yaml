@@ -1,9 +1,25 @@
-- name: Install direnv
-  import_playbook: direnv.yaml
-
 - hosts: all
   gather_facts: false
   tasks:
+
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install direnv
+    become: yes
+    become_user: root
+    apt:
+      pkg: direnv
+      state: latest
+
+  - name: Enable direnv
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: eval "$(direnv hook bash)"
 
   - name: Check whether file .envrc exists
     stat:
@@ -16,12 +32,11 @@
       state: touch
     when: not envrc.stat.exists
 
-  - name: Add /opt/python-3.9.1/bin and $HOME/.local/bin to local PATH using direnv
-    blockinfile:
+  - name: Add ~/.local/bin to local PATH using direnv
+    lineinfile:
       path: .envrc
-      block: |
-        export PATH=/opt/python-3.9.1/bin:$PATH
-        export PATH=$HOME/.local/bin:$PATH
+      line: export PATH=${HOME}/.local/bin:$PATH
 
   - name: Enable direnv in this dir
     shell: eval "$(direnv hook bash)" && direnv allow
+    when: not envrc.stat.exists

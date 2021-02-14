@@ -12,6 +12,8 @@
       path: /etc/ssl/private/localhost_CA.key
 
   - name: Look for local CA certificate
+    become: yes
+    become_user: root
     stat:
       path: /etc/ssl/certs/localhost_CA.pem
     register: localhost_CA_certificate

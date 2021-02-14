@@ -28,6 +28,8 @@
   # https://docs.ansible.com/ansible/latest/collections/community/kubernetes/helm_module.html
   - name: Install JupyterHub Chart
     community.kubernetes.helm:
+      kubeconfig: "{{ lookup('env', 'HOME') }}/.kube/microk8s"
+      context: microk8s
       chart_ref: jupyterhub/jupyterhub
       release_name: jupyterhub
       create_namespace: true

@@ -1,6 +1,3 @@
-- name: Install curl
-  import_playbook: curl.yaml
-
 - hosts: all
   gather_facts: false
   tasks:

@@ -1,0 +1,16 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Create ~/.IdeaIC2019.2/config/plugins
+    file:
+      path: "{{ lookup('env', 'HOME') }}/.IdeaIC2019.2/config/plugins"
+      mode: '744'
+      state: directory
+
+  - name: Installs Scala plugin
+    unarchive:
+      remote_src: yes
+      src: https://plugins.jetbrains.com/files/1347/71120/scala-intellij-bin-2020.1.1.zip
+      # TODO Force previous step to install this version of IntelliJ
+      dest: "{{ lookup('env', 'HOME') }}/.IdeaIC2019.2/config/plugins"

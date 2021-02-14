@@ -2,5 +2,9 @@
 
 set -eux
 
-docker build -t localops:ubuntu-18.04-test -f Dockerfile-ubuntu-18.04 .
-docker build -t localops:ubuntu-20.04-test -f Dockerfile-ubuntu-20.04 .
+cd ..
+
+for DISTRO in ubuntu-18.04 ubuntu-20.04
+do
+  docker build -t localops:${DISTRO} -f test/Dockerfile-${DISTRO} .
+done
