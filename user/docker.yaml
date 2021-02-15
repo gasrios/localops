@@ -1,0 +1,22 @@
+- name: Create ~/bin and add it to PATH
+  import_playbook: create-user-bin.yaml
+
+- hosts: all
+  tasks:
+
+  - name: Install rootless docker
+    shell: "curl -fsSL https://get.docker.com/rootless | sh"
+    args:
+      warn: false
+
+  - name: Start Docker registry service
+    systemd:
+      scope: user
+      name: docker
+      enabled: yes
+      state: started
+
+  - name: Add ~/bin to PATH
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: alias docker="DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock docker"

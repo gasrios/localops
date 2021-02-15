@@ -1,0 +1,6 @@
+# https://docs.docker.com/engine/security/rootless/
+- name: Install docker, root
+  import_playbook: root/docker.yaml
+
+- name: Install docker, user
+  import_playbook: user/docker.yaml
