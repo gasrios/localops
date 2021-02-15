@@ -1,4 +1,5 @@
 # List of playbooks to test, without redundancies
+./docker.yaml
 ./dropbox.yaml
 ./intellij.yaml
 ./microk8s.yaml

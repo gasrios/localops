@@ -95,9 +95,9 @@ Some of the above do nothing beyond installing packages from official Ubuntu rep
 
 ## Testing
 
-* [test/setup.sh](https://github.com/gasrios/localops/blob/master/test/setup.sh) creates "test" Docker images. "Vanilla" Ubuntu Docker images do not have all the packages you would expect to find in an Ubuntu desktop, so we add the bare minimum that ensure compatibility.
-
-* [test/test.sh](https://github.com/gasrios/localops/blob/master/test/test.sh) runs the installation process in all supported environments.
+* [test/setup.sh](https://github.com/gasrios/localops/blob/master/test/setup.sh) creates "test" Docker images. As a side effect, it also tests the installation process.
+* [test/test-playbook.sh](https://github.com/gasrios/localops/blob/master/test/test-playbook.sh) tests one playbook by running it twice for each supported distro.
+* [test/test-all-playbooks.sh](https://github.com/gasrios/localops/blob/master/test/test-all-playbooks.sh) tests all playbooks.
 _____
 ## Copyright & License
 
