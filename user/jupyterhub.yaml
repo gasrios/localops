@@ -8,8 +8,10 @@
 
   - name: Install PyYAML
     pip:
+      executable: pip
       name: PyYAML
       state: latest
+      extra_args:  --no-cache-dir --upgrade --force-reinstall --user
 
   # https://docs.ansible.com/ansible/latest/collections/community/kubernetes/helm_repository_module.html
   - name: Add JupyterHub Helm repository

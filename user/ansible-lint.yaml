@@ -1,0 +1,12 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # See https://ansible-lint.readthedocs.io/en/latest/
+  - name: Install Ansible Lint
+    pip:
+      executable: pip
+      name: ansible-lint[yamllint]
+      state: present
+      version: 5.0.1
+      extra_args: --no-cache-dir --user

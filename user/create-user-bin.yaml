@@ -7,8 +7,3 @@
       path: "{{ lookup('env', 'HOME') }}/bin"
       mode: '744'
       state: directory
-
-  - name: Add ~/bin to PATH
-    lineinfile:
-      path: "{{ lookup('env', 'HOME') }}/.bashrc"
-      line: PATH=$HOME/bin:$PATH

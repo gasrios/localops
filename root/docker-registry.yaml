@@ -5,13 +5,6 @@
   gather_facts: false
   tasks:
 
-  - name: Install pip, system wide
-    become: yes
-    become_user: root
-    apt:
-      state: latest
-      pkg: python3-pip
-
   - name: install python docker module
     become: yes
     become_user: root

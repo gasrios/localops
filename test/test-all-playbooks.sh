@@ -2,9 +2,7 @@
 
 set -eux
 
-cd ..
-
-for PLAYBOOK in $(cat test/playbooks | egrep -v '#')
+for PLAYBOOK in $(egrep -v '#' playbooks)
 do
-  ./localops-cli.sh ${PLAYBOOK}
+  ./test-playbook.sh $PLAYBOOK
 done

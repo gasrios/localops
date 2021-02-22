@@ -4,5 +4,7 @@
 
   - name: Install AWS CLI
     pip:
+      executable: pip
       name: awscli
       state: latest
+      extra_args:  --no-cache-dir --upgrade --force-reinstall --user

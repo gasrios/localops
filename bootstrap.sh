@@ -13,7 +13,7 @@ distro_dependent_setup() {
     export DEBIAN_FRONTEND=noninteractive
     $(which sudo) apt update
     $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-    $(which sudo) apt install --assume-yes python3-pip direnv curl
+    $(which sudo) apt install --assume-yes python3-pip
   ;;
   *)
     echo "Unsupported distro ${DISTRO}"
@@ -40,4 +40,7 @@ then
   $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user ansible
 fi
 
-./localops-cli.sh install.yaml
+if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
+then
+  ./localops-cli.sh root/install.yaml
+fi
