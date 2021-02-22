@@ -2,17 +2,24 @@
 
 set -eu
 
-export PLAYBOOK=$(echo $1 | sed 's/\.\.\///')
+export PLAYBOOK=$(echo $1 | sed 's|^\.\./||')
 
 cd ..
 
-for DISTRO in localops:ubuntu-18.04 localops:ubuntu-20.04
+if [ $(ansible-lint $PLAYBOOK; echo $?) -eq 0 ]
+then
+  echo 'Static code check found no errors'
+fi
+
+for DISTRO in ubuntu-18.04 ubuntu-20.04
 do
-    docker run \
-        --rm \
-        -it \
-        -v $(pwd):/home/test/localops \
-        -w /home/test/localops \
-        ${DISTRO} \
-        "''. ~/.profile && ./localops-cli.sh $PLAYBOOK && ./localops-cli.sh $PLAYBOOK''"
+  echo Testing $DISTRO
+  docker run \
+    --rm \
+    -it \
+    -u test \
+    -v $(pwd):/home/test/localops \
+    -w /home/test/localops \
+    localops:${DISTRO} \
+    "''. ~/.profile && ./localops-cli.sh $PLAYBOOK $PLAYBOOK''"
 done

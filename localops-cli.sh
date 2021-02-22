@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -eux
+set -eu
 
 while [ "$#" -gt 0 ]
 do

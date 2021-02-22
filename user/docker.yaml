@@ -19,4 +19,4 @@
   - name: Add ~/bin to PATH
     lineinfile:
       path: "{{ lookup('env', 'HOME') }}/.bashrc"
-      line: alias docker="DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock docker"
+      line: export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock

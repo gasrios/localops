@@ -39,7 +39,7 @@ What does bootstrap.sh do? It...
 
 ## Using localops
 
-After installation, you can install additional sofwares from the command line by running the following command, from localops root directory:
+After installation, you can install additional softwares from the command line by running the following command, from localops root directory:
 
 `./localops-cli.sh ${PLAYBOOK_NAME}`
 
@@ -55,6 +55,7 @@ This separation supports use cases in which separation of responsibilities is ne
 
 ## Currently Available Playbooks
 
+* [Ansible Lint](https://ansible-lint.readthedocs.io/en/latest/)
 * [AWS Command Line Interface](https://aws.amazon.com/cli/)
 * Local [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority)
 * [Chef Workstation](https://docs.chef.io/workstation/)
@@ -90,14 +91,62 @@ This separation supports use cases in which separation of responsibilities is ne
 
 Some of the above do nothing beyond installing packages from official Ubuntu repositories, which may seem to be overkill. Still, having a playbook might be useful, as it can be imported by other playbook to orchestrate installation of complex environments, and/or add additional configuration to them.
 
-1. MicroK8s [can't reach the internet](https://microk8s.io/docs/troubleshooting#heading--common-issues). If you need your microk8s cluster to access the Internet, localops provides script [microk8s/ufw-allow-microk8s.sh](https://github.com/gasrios/localops/blob/master/microk8s/ufw-allow-microk8s.sh) to help you configure your firewall. However, localops **DOES NOT** execute it, as this might be a security issue. Please review and customize it as you see fit, given your use cases. Even after correctly configuring your firewall, you may experience connectivity issues, after rebooting. Running "microk8s stop" before shutting down should prevent them from happening and, even if they do, "microk8s stop" and "microk8s start" should fix them.
-1. JupyterHub's playbook will install it on the cluster being referred to by your environment variables KUBECONFIG and CONTEXT, which may or may not be local to your computer. If you install MicroK8s using localops, JupyterHub will be installed in it by default.
+1. MicroK8s [can't reach the internet](https://MicroK8s.io/docs/troubleshooting#heading--common-issues). If you need your MicroK8s cluster to access the Internet, localops provides script [MicroK8s/ufw-allow-microk8s.sh](https://github.com/gasrios/localops/blob/master/MicroK8s/ufw-allow-microk8s.sh) to help you configure your firewall. However, localops **DOES NOT** execute it, as this might be a security issue. Please review and customize it as you see fit, given your use cases. Even after correctly configuring your firewall, you may experience connectivity issues, after rebooting. Running "MicroK8s stop" before shutting down should prevent them from happening and, even if they do, "MicroK8s stop" and "MicroK8s start" should fix them.
+1. JupyterHub playbook will install it on the cluster being referred to by your environment variables KUBECONFIG and CONTEXT, which may or may not be local to your computer. If you install MicroK8s using localops, JupyterHub will be installed in it by default.
 
 ## Testing
 
 * [test/setup.sh](https://github.com/gasrios/localops/blob/master/test/setup.sh) creates "test" Docker images. As a side effect, it also tests the installation process.
 * [test/test-playbook.sh](https://github.com/gasrios/localops/blob/master/test/test-playbook.sh) tests one playbook by running it twice for each supported distro.
 * [test/test-all-playbooks.sh](https://github.com/gasrios/localops/blob/master/test/test-all-playbooks.sh) tests all playbooks.
+
+Before testing the playbook, static code check is performed using Ansible Lint](https://ansible-lint.readthedocs.io/en/latest/).
+
+Each playbook is executed twice for each supported platform; ideally, the second execution should yield no changes, providing evidence of idempotency.
+
+Here is what executing a test looks like:
+```
+~/projects/localops/test$ ./test-playbook.sh ../user/ansible-lint.yaml
+WARNING  Overriding detected file kind 'yaml' with 'playbook' for given positional argument: user/ansible-lint.yaml
+Static code check found no errors
+Testing ubuntu-18.04
+
+PLAY [all] *******************************************************************************************************
+
+TASK [Install Ansible Lint] **************************************************************************************
+changed: [localhost]
+
+PLAY RECAP *******************************************************************************************************
+localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+PLAY [all] *******************************************************************************************************
+
+TASK [Install Ansible Lint] **************************************************************************************
+ok: [localhost]
+
+PLAY RECAP *******************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+Testing ubuntu-20.04
+
+PLAY [all] *******************************************************************************************************
+
+TASK [Install Ansible Lint] **************************************************************************************
+changed: [localhost]
+
+PLAY RECAP *******************************************************************************************************
+localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+PLAY [all] *******************************************************************************************************
+
+TASK [Install Ansible Lint] **************************************************************************************
+ok: [localhost]
+
+PLAY RECAP *******************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
 _____
 ## Copyright & License
 
