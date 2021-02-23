@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+
+  - name: Download Zoom package
+    get_url:
+      url=https://zoom.us/client/latest/zoom_amd64.deb
+      dest=/tmp/zoom_amd64.deb
+
+  - name: Install Zoom
+    become: true
+    become_user: root
+    apt: deb=/tmp/zoom_amd64.deb

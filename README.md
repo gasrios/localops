@@ -88,6 +88,7 @@ This separation supports use cases in which separation of responsibilities is ne
 * [Spring Boot CLI](https://javasterling.com/spring-boot/spring-boot-cli)
 * [Terraform](https://www.terraform.io/) by Hashicorp
 * [Visual Studio Code](https://code.visualstudio.com/)
+* [Zoom](https://zoom.us/)
 
 Some of the above do nothing beyond installing packages from official Ubuntu repositories, which may seem to be overkill. Still, having a playbook might be useful, as it can be imported by other playbook to orchestrate installation of complex environments, and/or add additional configuration to them.
 
