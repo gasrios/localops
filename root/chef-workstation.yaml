@@ -1,0 +1,9 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Install Chef Workstation, version 21.1.233
+    become: yes
+    become_user: root
+    apt:
+      deb: https://packages.chef.io/files/stable/chef-workstation/21.1.233/ubuntu/20.04/chef-workstation_21.1.233-1_amd64.deb

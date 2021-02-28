@@ -5,18 +5,19 @@
 
 FROM ubuntu:18.04
 
-RUN apt update
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN DEBIAN_FRONTEND=noninteractive apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+RUN apt update && \
+    apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
+    apt install --assume-yes sudo ubuntu-minimal ubuntu-standard python3-distutils git && \
+    useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel && \
+    passwd -d test && \
+    addgroup test sudo
 
-RUN DEBIAN_FRONTEND=noninteractive apt install --assume-yes sudo ubuntu-standard python3-distutils git
+COPY . /home/test/localops/
 
-RUN useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel
-
-RUN passwd -d test
-
-RUN addgroup test sudo
+RUN chown -R test:test /home/test/localops && \
+    su test -c 'cd /home/test/localops && ./bootstrap.sh' && \
+    rm -rf /home/test/localops
 
 ENTRYPOINT ["/bin/bash", "-c"]
-
-CMD ["su test -c './bootstrap.sh'"]

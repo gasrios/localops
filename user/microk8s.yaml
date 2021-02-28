@@ -1,0 +1,52 @@
+# See https://microk8s.io/docs/troubleshooting#heading--common-issues ,
+# "My pods can't reach the internet or each other (but my MicroK8s host machine can)..."
+#
+# If you need your microk8s cluster to access the Internet, localops provides script
+# microk8s/ufw-allow-microk8s.sh to help you configure your firewall. However, localops
+# *DOES NOT* execute it, as this might be a security issue. Please review and customize
+# it as you see fit, given your use cases.
+#
+# Even after correctly configuring your firewall, you may experience connectivity issues,
+# after rebooting. Running "microk8s stop" before shutting down should prevent them from
+# happening and, even if they do, "microk8s start" and "microk8s stop" should fix them.
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Add /snap/bin to PATH
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: PATH="/snap/bin:$PATH"
+
+  - name: Create directory ~/.kube if it does not exist
+    file:
+      path: "{{ lookup('env', 'HOME') }}/.kube"
+      state: directory
+
+  - name: Copy /var/snap/microk8s/current/credentials/kubelet.config to ~/.kube/microk8s
+    shell: "cp -f /var/snap/microk8s/current/credentials/kubelet.config {{ lookup('env', 'HOME') }}/.kube/microk8s"
+
+  - name: Create file "~/.envrc" if it does not exist
+    file:
+      path: "{{ lookup('env', 'HOME') }}/.envrc"
+      state: touch
+
+  - name: Add microk8s KUBECONFIG configuration to ~/.envrc
+    blockinfile:
+      path: "{{ lookup('env', 'HOME') }}/.envrc"
+      block: |
+        export KUBECONFIG=$HOME/.kube/microk8s
+        export CONTEXT=microk8s
+
+  - name: Update direnv config
+    shell: direnv allow
+
+  - debug:
+      msg: >
+        MicroK8s was installed. If you need your microk8s cluster to access the Internet,
+        run script microk8s/ufw-allow-microk8s.sh as root. Be aware it will make changes
+        to your firewall that might pose security risks. Even after correctly configuring
+        your firewall, you may experience connectivity issues, after rebooting. Running
+        'microk8s stop' before shutting down should prevent them from happening and, even
+        if they do, 'microk8s start' and 'microk8s stop' should fix them.

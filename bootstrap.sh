@@ -2,21 +2,45 @@
 
 set -eux
 
-export PYTHON_VERSION=3.9.1
-export DEBIAN_FRONTEND=noninteractive
+#
+# Distribution dependent setup goes in this function
+#
+distro_dependent_setup() {
+  DISTRO=$(egrep '^ID=' /etc/os-release | sed 's/^ID="\?\([^"]*\)"\?/\1/')
 
-sudo apt update
+  case "${DISTRO}" in
+  ubuntu)
+    export DEBIAN_FRONTEND=noninteractive
+    $(which sudo) apt update
+    $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+    $(which sudo) apt install --assume-yes python3-pip
+  ;;
+  *)
+    echo "Unsupported distro ${DISTRO}"
+    false
+  ;;
+  esac
+}
 
-sudo apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-
-if [ -z "$(which ansible)" ]
+if [ -z "$(which ansible-playbook)" ]
 then
-    DISTRO=$(egrep '^ID=' /etc/os-release | sed 's/^ID="\?\([^"]*\)"\?/\1/')
-    DISTRO_VERSION=$(egrep '^VERSION_ID=' /etc/os-release | sed 's/^VERSION_ID="\?\([^"]*\)"\?/\1/')
-    wget -SO- https://raw.githubusercontent.com/gasrios/p4lo/main/repository/${DISTRO}-${DISTRO_VERSION}-${PYTHON_VERSION}.tbz \
-    | sudo tar xvj --directory /
-    sudo /opt/python-${PYTHON_VERSION}/bin/pip install --no-cache-dir --upgrade pip
-    PATH=$HOME/.local/bin:/opt/python-${PYTHON_VERSION}/bin:$PATH
-    pip install ansible
-    ./localops-cli.sh install.yaml
+  if [ -z "$(which pip3 || which pip)" ]
+  then
+    if [ "$(whoami)" != root -a -z "$(groups | egrep sudo)" ]
+    then
+      echo "Neither Ansible nor pip are installed, and cannot be installed by user $(whoami)."
+      false
+    else
+      distro_dependent_setup
+    fi
+  fi
+  export PATH=${HOME}/.local/bin:${PATH}
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user pip
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user wheel
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user ansible
+fi
+
+if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
+then
+  ./localops-cli.sh root/install.yaml
 fi

@@ -1,10 +1,10 @@
-- import_playbook: pip.yaml
-
 - hosts: all
   gather_facts: false
   tasks:
 
   - name: Install LocalStack
     pip:
+      executable: pip
       name: localstack
       state: latest
+      extra_args:  --no-cache-dir --upgrade --force-reinstall --user

@@ -5,13 +5,6 @@
   gather_facts: false
   tasks:
 
-  - name: Install pip, system wide
-    become: yes
-    become_user: root
-    apt:
-      state: latest
-      pkg: python3-pip
-
   - name: install python docker module
     become: yes
     become_user: root
@@ -93,6 +86,8 @@
       path: /etc/ssl/private/docker.localhost.key
 
   - name: Look for Docker registry certificate
+    become: yes
+    become_user: root
     stat:
       path: /etc/ssl/certs/docker.localhost.crt
     register: docker_registry_certificate

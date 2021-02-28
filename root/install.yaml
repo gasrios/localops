@@ -9,31 +9,30 @@
       update_cache: yes
       cache_valid_time: 86400
 
-  - name: Install direnv
+  - name: Install curl
     become: yes
     become_user: root
     apt:
-      pkg: direnv
       state: latest
+      pkg: curl
+
+  - name: Install unzip
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: unzip
 
   - name: Check whether .bashrc exists
     stat:
       path: "{{ lookup('env', 'HOME') }}/.bashrc"
     register: bashrc
 
-  - name: Enable direnv in Bash
-    lineinfile:
-      path: "{{ lookup('env', 'HOME') }}/.bashrc"
-      line: eval "$(direnv hook bash)"
-    when: envrc.bashrc.exists
+    # ...
 
   - name: Check whether .zshrc exists
     stat:
       path: "{{ lookup('env', 'HOME') }}/.zshrc"
     register: zshrc
 
-  - name: Enable direnv in zsh
-    lineinfile:
-      path: "{{ lookup('env', 'HOME') }}/.zshrc"
-      line: eval "$(direnv hook zsh)"
-    when: envrc.zshrc.exists
+    # ...
