@@ -19,4 +19,10 @@
     become: yes
     become_user: root
     apt:
+      deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-vfs/libgnomevfs2-0_2.24.4-6.1ubuntu2_amd64.deb
+
+  - name: Install a .deb package from the internet
+    become: yes
+    become_user: root
+    apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-raw-thumbnailer/gnome-raw-thumbnailer_2.0.1-0ubuntu9_amd64.deb
