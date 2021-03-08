@@ -15,9 +15,8 @@
       pkg: gimp
       state: latest
 
-  - name: Install Gnome raw thumbnailer
+  - name: Install a .deb package from the internet
     become: yes
     become_user: root
     apt:
-      pkg: gnome-raw-thumbnailer
-      state: latest
+      deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-raw-thumbnailer/gnome-raw-thumbnailer_2.0.1-0ubuntu9_amd64.deb
