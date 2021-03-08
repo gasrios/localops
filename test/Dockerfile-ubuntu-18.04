@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && \
     apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" && \
-    apt install --assume-yes sudo ubuntu-minimal ubuntu-standard python3-distutils git && \
+    apt install --assume-yes sudo ubuntu-standard python3-distutils git && \
     useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel && \
     passwd -d test && \
     addgroup test sudo

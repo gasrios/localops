@@ -1,4 +1,4 @@
-- name: Create ~/bin and add it to PATH
+- name: Create ~/bin
   import_playbook: create-user-bin.yaml
 
 - hosts: all
