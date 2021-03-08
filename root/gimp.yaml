@@ -38,4 +38,10 @@
     become: yes
     become_user: root
     apt:
+      deb: http://archive.ubuntu.com/ubuntu/pool/main/e/exiv2/libexiv2-14_0.25-3.1_amd64.deb
+
+  - name: Install a .deb package from the internet
+    become: yes
+    become_user: root
+    apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/u/ufraw/ufraw-batch_0.22-3_amd64.deb
