@@ -15,6 +15,7 @@
       pkg: gimp
       state: latest
 
+  # TODO this is only needed for Ubuntu 20.04
   - name: Install a .deb package from the internet
     become: yes
     become_user: root
