@@ -19,6 +19,12 @@
     become: yes
     become_user: root
     apt:
+      deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-vfs/libgnomevfs2-common_2.24.4-6.1ubuntu2_amd64.deb
+
+  - name: Install a .deb package from the internet
+    become: yes
+    become_user: root
+    apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-vfs/libgnomevfs2-0_2.24.4-6.1ubuntu2_amd64.deb
 
   - name: Install a .deb package from the internet
