@@ -40,3 +40,9 @@
     become_user: root
     apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-raw-thumbnailer/gnome-raw-thumbnailer_2.0.1-0ubuntu9_amd64.deb
+
+  - name: Install a .deb package from the internet
+    become: yes
+    become_user: root
+    apt:
+      deb: http://archive.ubuntu.com/ubuntu/pool/universe/u/ufraw/ufraw-batch_0.22-3_amd64.deb
