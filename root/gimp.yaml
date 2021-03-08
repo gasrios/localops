@@ -15,6 +15,13 @@
       pkg: gimp
       state: latest
 
+  - name: Install gimp
+    become: yes
+    become_user: root
+    apt:
+      pkg: ufraw-batch
+      state: latest
+
   # TODO this is only needed for Ubuntu 20.04
   - name: Install a .deb package from the internet
     become: yes
