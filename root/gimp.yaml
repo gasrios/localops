@@ -16,39 +16,40 @@
       state: latest
 
   # TODO this is only needed for Ubuntu 20.04
-  - name: Install a .deb package from the internet
+  - name: Install libgnomevfs2-common
     become: yes
     become_user: root
     apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-vfs/libgnomevfs2-common_2.24.4-6.1ubuntu2_amd64.deb
 
-  - name: Install a .deb package from the internet
+  - name: Install libgnomevfs2
     become: yes
     become_user: root
     apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-vfs/libgnomevfs2-0_2.24.4-6.1ubuntu2_amd64.deb
 
-  - name: Install a .deb package from the internet
+  - name: Install gnome-raw-thumbnailer
     become: yes
     become_user: root
     apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/g/gnome-raw-thumbnailer/gnome-raw-thumbnailer_2.0.1-0ubuntu9_amd64.deb
 
-  - name: Install a .deb package from the internet
+  - name: Install libexiv2
     become: yes
     become_user: root
     apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/main/e/exiv2/libexiv2-14_0.25-3.1_amd64.deb
 
 #http://archive.ubuntu.com/ubuntu/pool/universe/u/ufraw/ufraw_0.22-3_amd64.deb
+#libgtkimageview0\n
 
-  - name: Install a .deb package from the internet
+  - name: Install gimp-ufraw
     become: yes
     become_user: root
     apt:
       deb: http://archive.ubuntu.com/ubuntu/pool/universe/u/ufraw/gimp-ufraw_0.22-3_amd64.deb
 
-  - name: Install a .deb package from the internet
+  - name: Install ufraw-batch
     become: yes
     become_user: root
     apt:
