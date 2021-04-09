@@ -36,8 +36,8 @@ then
   fi
   export PATH=${HOME}/.local/bin:${PATH}
   $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user pip
-  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user wheel
-  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user ansible
+  pip install --no-cache-dir --upgrade --force-reinstall --user wheel
+  pip install --no-cache-dir --upgrade --force-reinstall --user ansible
 fi
 
 if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
