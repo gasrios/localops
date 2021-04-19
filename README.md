@@ -60,10 +60,12 @@ This separation supports use cases in which separation of responsibilities is ne
 * Local [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority)
 * [Chef Workstation](https://docs.chef.io/workstation/)
 * [Codacy Analysis CLI](https://github.com/codacy/codacy-analysis-cli)
+* [direnv](https://direnv.net/)
 * [Docker](https://www.docker.com/)
 * [Docker Compose](https://docs.docker.com/compose/)
 * [Docker local registry](https://docs.docker.com/registry/insecure/) as [systemctl](https://www.freedesktop.org/software/systemd/man/systemctl.html) service
 * [Dropbox](https://www.dropbox.com/)
+* [GIMP](https://www.gimp.org/) with [UFRaw](https://sourceforge.net/projects/ufraw/)
 * [GitHub CLI](https://cli.github.com/)
 * [Google Chrome](https://www.google.com/chrome)
 * [Google Cloud SDK](https://cloud.google.com/sdk)
