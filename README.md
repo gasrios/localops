@@ -101,7 +101,7 @@ Some of the above do nothing beyond installing packages from official Ubuntu rep
 * [test/test-playbook.sh](https://github.com/gasrios/localops/blob/master/test/test-playbook.sh) tests one playbook by running it twice for each supported distro.
 * [test/test-all-playbooks.sh](https://github.com/gasrios/localops/blob/master/test/test-all-playbooks.sh) tests all playbooks.
 
-Before testing the playbook, static code check is performed using Ansible Lint](https://ansible-lint.readthedocs.io/en/latest/).
+Before testing the playbook, static code check is performed using [Ansible Lint](https://ansible-lint.readthedocs.io/en/latest/).
 
 Each playbook is executed twice for each supported platform; ideally, the second execution should yield no changes, providing evidence of idempotency.
 
