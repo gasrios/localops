@@ -14,11 +14,6 @@
   gather_facts: false
   tasks:
 
-  - name: Add /snap/bin to PATH
-    lineinfile:
-      path: "{{ lookup('env', 'HOME') }}/.bashrc"
-      line: PATH="/snap/bin:$PATH"
-
   - name: Create directory ~/.kube if it does not exist
     file:
       path: "{{ lookup('env', 'HOME') }}/.kube"
