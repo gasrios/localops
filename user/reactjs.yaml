@@ -1,0 +1,11 @@
+- name: Install Node.js
+  import_playbook: nodejs.yaml
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Install ReactJS
+    npm:
+      name: create-react-app
+      global: yes

@@ -84,6 +84,9 @@ This separation supports use cases in which separation of responsibilities is ne
 * [Nginx](https://nginx.org/en/)
 * [Node.js](https://nodejs.org/en/)
 * [Packer](https://packer.io/) by Hashicorp
+* [PHP](https://www.php.net/) with [Symfony](https://symfony.com/) and [The API Platform Framework](https://api-platform.com/) support
+* [PhpStorm](https://www.jetbrains.com/phpstorm/)
+* [ReactJs](https://reactjs.org/)
 * [Salesforce](https://www.salesforce.com/)
 * [Slack](https://slack.com/)
 * [Spotify for Linux](https://www.spotify.com/br/download/linux/)

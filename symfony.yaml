@@ -1,0 +1,5 @@
+- name: Install PHP
+  import_playbook: root/php.yaml
+
+- name: Install Symfony
+  import_playbook: user/symfony.yaml
