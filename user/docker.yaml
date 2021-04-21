@@ -1,5 +1,4 @@
-- name: Create ~/bin
-  import_playbook: create-user-bin.yaml
+- import_playbook: create-user-bin.yaml
 
 - hosts: all
   tasks:
@@ -16,7 +15,7 @@
       enabled: yes
       state: started
 
-  - name: Add ~/bin to PATH
+  - name: export DOCKER_HOST in .bashrc
     lineinfile:
       path: "{{ lookup('env', 'HOME') }}/.bashrc"
       line: export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock

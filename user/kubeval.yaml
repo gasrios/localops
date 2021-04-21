@@ -1,5 +1,4 @@
-- name: Create ~/bin
-  import_playbook: create-user-bin.yaml
+- import_playbook: create-user-bin.yaml
 
 - hosts: all
   gather_facts: false
