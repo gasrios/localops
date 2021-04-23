@@ -1,0 +1,12 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: Install VS Code Extensions
+      block:
+      - shell: code --install-extension felixfbecker.php-pack
+      - shell: code --install-extension ikappas.phpcs
+      - shell: code --install-extension aequabit.php-cs-fixer
+      - shell: code --install-extension neilbrayfield.php-docblocker
+      - shell: code --install-extension calebporzio.better-phpunit
+      - shell: code --install-extension ecodes.vscode-phpmd
+      - shell: code --install-extension bmewburn.vscode-intelephense-client
