@@ -1,0 +1,18 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # https://graphviz.gitlab.io/download/#linux
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install Graphviz
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: graphviz

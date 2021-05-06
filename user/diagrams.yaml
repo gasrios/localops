@@ -1,0 +1,10 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # https://diagrams.mingrammer.com/docs/getting-started/installation
+  - name: Install Ansible Lint
+    pip:
+      name: diagrams
+      state: present
+      extra_args: --no-cache-dir --user
