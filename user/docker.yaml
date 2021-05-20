@@ -7,6 +7,9 @@
     shell: "curl -fsSL https://get.docker.com/rootless | sh"
     args:
       warn: false
+  
+  - debug:
+      msg: "Rootless docker requires your user ID in /etc/subuid and /etc/subgid. See root/subuid-subgid.yaml"
 
   - name: Start Docker registry service
     systemd:
