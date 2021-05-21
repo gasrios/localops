@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+  - name: Add this user to subuid_file 
+    become: yes
+    become_user: root
+    command: usermod -v 100000-165535 "{{ lookup('env', 'USER') }}"
+
+  - name: Add this user to subgid_file 
+    become: yes
+    become_user: root
+    command: usermod -w 100000-165535 "{{ lookup('env', 'USER') }}"
