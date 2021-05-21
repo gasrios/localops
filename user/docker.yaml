@@ -9,7 +9,7 @@
       warn: false
   
   - debug:
-      msg: "Rootless docker requires your user ID in /etc/subuid and /etc/subgid. See root/subuid-subgid.yaml"
+      msg: "Rootless docker requires your user ID in /etc/subuid and /etc/subgid, per the /subuid-subgid.yaml playbook"
 
   - name: Start Docker registry service
     systemd:
