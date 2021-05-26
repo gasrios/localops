@@ -13,7 +13,7 @@ distro_dependent_setup() {
     export DEBIAN_FRONTEND=noninteractive
     $(which sudo) apt update
     $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-    $(which sudo) apt install --assume-yes python3-pip
+    $(which sudo) apt install --assume-yes python3-pip python-is-python3
   ;;
   *)
     echo "Unsupported distro ${DISTRO}"

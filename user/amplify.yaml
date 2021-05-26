@@ -1,0 +1,11 @@
+- name: Install Node.js
+  import_playbook: nodejs.yaml
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Install AWS Amplify command line interface
+    npm:
+      name: '@aws-amplify/cli'
+      global: yes
