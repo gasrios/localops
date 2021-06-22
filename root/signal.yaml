@@ -1,0 +1,33 @@
+# From https://signal.org/download
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Install official public software signing key
+    become: yes
+    become_user: root
+    apt_key:
+      url: https://updates.signal.org/desktop/apt/keys.asc
+      state: present
+
+  - name: Add repository to list of repositories
+    become: yes
+    become_user: root
+    apt_repository:
+      repo: deb https://updates.signal.org/desktop/apt xenial main
+      state: present
+
+  - name: Update apt cache, if older than a day
+    become: yes
+    become_user: root
+    apt:
+      update_cache: yes
+      cache_valid_time: 86400
+
+  - name: Install signal
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: signal-desktop
