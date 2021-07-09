@@ -2,9 +2,12 @@
   gather_facts: false
   tasks:
 
-  - name: Install AWS CLI
-    pip:
-      executable: pip
-      name: awscli
-      state: latest
-      extra_args:  --no-cache-dir --upgrade --force-reinstall --user
+  # https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+  - name: Download AWS CLI Version 2 Installer
+    unarchive:
+      src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: /tmp
+      remote_src: yes
+
+  - name: Install AWS CLI Version 2
+    shell: /tmp/aws/install -i ~/.local/aws-cli -b ~/.local/bin

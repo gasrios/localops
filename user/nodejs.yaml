@@ -16,7 +16,7 @@
       creates: "{{ lookup('env', 'HOME') }}/.nvm/nvm.sh"
 
   # https://github.com/nvm-sh/nvm#usage
-  - name: Download, compile, and install the latest release of node
+  - name: Download, compile, and install the latest Node.js release
     shell: "source {{ lookup('env', 'HOME') }}/.nvm/nvm.sh && nvm install node"
     args:
       executable: /bin/bash

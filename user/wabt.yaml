@@ -1,0 +1,25 @@
+- import_playbook: http-server.yaml
+- import_playbook: create-user-bin.yaml
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Get wabt latest version
+    shell: "curl -Ls -o /dev/null -w %{url_effective} https://github.com/WebAssembly/wabt/releases/latest | sed -e 's|.*/||'"
+    args:
+      warn: false
+    register: version
+
+  - name: Download wabt
+    unarchive:
+      src: https://github.com/WebAssembly/wabt/releases/download/{{ version.stdout }}/wabt-{{ version.stdout }}-ubuntu.tar.gz
+      dest: /tmp
+      remote_src: yes
+      mode: '744'
+
+  - name: Install wabt
+    copy:
+      src: /tmp/wabt-{{ version.stdout }}/bin/
+      dest: "{{ lookup('env', 'HOME') }}/bin"
+      mode: '0744'

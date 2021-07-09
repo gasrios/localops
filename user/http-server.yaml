@@ -1,0 +1,12 @@
+- name: Install Node.js
+  import_playbook: nodejs.yaml
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # https://www.npmjs.com/package/http-server
+  - name: Install http-server
+    npm:
+      name: http-server
+      global: yes
