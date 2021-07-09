@@ -1,0 +1,11 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # https://www.jetbrains.com/help/phpstorm/installation-guide.html#snap
+  - name: Install PhpStorm
+    become: yes
+    become_user: root
+    snap:
+      name: phpstorm
+      classic: yes

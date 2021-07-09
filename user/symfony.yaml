@@ -1,0 +1,48 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  # https://getcomposer.org/doc/faqs/how-to-install-composer-programmatically.md
+  - name: Install Composer
+    shell: curl -o- https://getcomposer.org/installer | php --
+    args:
+      chdir: "{{ lookup('env', 'HOME') }}/bin"
+      warn: false
+      creates: "{{ lookup('env', 'HOME') }}/bin/composer.phar"
+
+  - name: Create a symbolic link
+    file:
+      src: "{{ lookup('env', 'HOME') }}/bin/composer.phar"
+      dest: "{{ lookup('env', 'HOME') }}/bin/composer"
+      state: link
+
+  # https://symfony.com/download
+  - name: Install Symfony CLI
+    shell: curl -o- https://get.symfony.com/cli/installer | bash
+    args:
+      warn: false
+      creates: "{{ lookup('env', 'HOME') }}/.symfony/bin/symfony"
+
+  - name: Add ~/.symfony/bin to PATH
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.bashrc"
+      line: PATH="{{ lookup('env', 'HOME') }}/.symfony/bin:$PATH"
+
+  - name: Install PHP CodeSniffer
+    composer:
+      command: require
+      global_command: yes
+      arguments: squizlabs/php_codesniffer
+
+  - name: Install PHP CodeSniffer
+    composer:
+      command: require
+      global_command: yes
+      arguments: friendsofphp/php-cs-fixer
+
+  # https://packagist.org/packages/api-platform/core
+  - name: Install API Platform Framework
+    composer:
+      command: require
+      global_command: yes
+      arguments: api-platform/core
