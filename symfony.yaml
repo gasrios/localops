@@ -1,0 +1,5 @@
+- name: Install Symfony, root
+  import_playbook: root/symfony.yaml
+
+- name: Install Symfony, user
+  import_playbook: user/symfony.yaml

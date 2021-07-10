@@ -1,0 +1,5 @@
+- name: Install Visual Studio Code
+  import_playbook: root/visual-studio-code.yaml
+
+- name: Install Visual Studio Code Extensions
+  import_playbook: user/visual-studio-code-extensions.yaml
