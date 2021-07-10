@@ -14,13 +14,11 @@ The existing playbooks suit my particular needs and may, or may not, interest yo
 * [Ubuntu 18.04 (Bionic Beaver)](http://releases.ubuntu.com/18.04/), 64 bit only
 * [Ubuntu 20.04 (Focal Fossa)](http://releases.ubuntu.com/20.04/)
 
-[Ubuntu 16.04 (Xenial Xerus)](http://releases.ubuntu.com/16.04/) is neither supported (if you find bugs, I will not fix them) nor was extensively tested, but some people did install localops in it and used it successfully.
+If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/master/bootstrap.sh#L8) out. Some playbooks assume Ubuntu, others should work with any distro out of the box, but the installation can be easily customized to support any other you want.
 
 ## Installation
 
-Ansible is not supported by Ubuntu out of the box, so we need to install it.
-
-Check this repository out (you may need to "sudo apt install git" first):
+You have to install Ansible yourself, or follow the steps described in this section. Either way, start by checking this repository out (you may need to [install git](https://git-scm.com/download/linux) first):
 
 `git clone git@github.com:gasrios/localops.git`
 
@@ -28,14 +26,7 @@ From within directory "localops", run:
 
 `./bootstrap.sh`
 
-If asked, inform your password (localops uses `sudo` to install APT packages).
-
-What does bootstrap.sh do? It...
-
-1. Installs apt package "python3-pip";
-1. Uses command "pip3", provided by the package, to install pip using the [user scheme](https://docs.python.org/3/install/index.html#alternate-installation-the-user-scheme), which from this point on manages itself (you can update/uninstall pip using pip)
-1. Uninstalls apt package "python3-pip" and its dependencies;
-1. Installs Ansible using pip
+If asked, inform your password (localops uses `sudo` to install APT packages). `./bootstrap.sh` will do nothing, if Ansible is already available, or install it, using [pip](https://pypi.org/project/pip/).
 
 ## Using localops
 
@@ -55,11 +46,13 @@ This separation supports use cases in which separation of responsibilities is ne
 
 ## Currently Available Playbooks
 
+* [AWS Amplify](https://aws.amazon.com/amplify/)
 * [Ansible Lint](https://ansible-lint.readthedocs.io/en/latest/)
 * [AWS Command Line Interface](https://aws.amazon.com/cli/)
 * Local [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority)
 * [Chef Workstation](https://docs.chef.io/workstation/)
 * [Codacy Analysis CLI](https://github.com/codacy/codacy-analysis-cli)
+* [Diagrams](https://diagrams.mingrammer.com/)
 * [direnv](https://direnv.net/)
 * [Docker](https://www.docker.com/)
 * [Docker Compose](https://docs.docker.com/compose/)
@@ -70,6 +63,7 @@ This separation supports use cases in which separation of responsibilities is ne
 * [Google Chrome](https://www.google.com/chrome)
 * [Google Cloud SDK](https://cloud.google.com/sdk)
 * [Helm](https://helm.sh/)
+* [http-server](https://www.npmjs.com/package/http-server)
 * [IntelliJ](https://www.jetbrains.com/idea/)
 * [Java](https://openjdk.java.net/)
 * [Jenkins](https://jenkins.io/)
@@ -85,11 +79,13 @@ This separation supports use cases in which separation of responsibilities is ne
 * [Node.js](https://nodejs.org/en/)
 * [Packer](https://packer.io/) by Hashicorp
 * [Salesforce](https://www.salesforce.com/)
+* [Signal](https://signal.org/download/)
 * [Slack](https://slack.com/)
 * [Spotify for Linux](https://www.spotify.com/br/download/linux/)
 * [Spring Boot CLI](https://javasterling.com/spring-boot/spring-boot-cli)
 * [Terraform](https://www.terraform.io/) by Hashicorp
 * [Visual Studio Code](https://code.visualstudio.com/)
+* [wabt](https://github.com/WebAssembly/wabt)
 * [Zoom](https://zoom.us/)
 
 Some of the above do nothing beyond installing packages from official Ubuntu repositories, which may seem to be overkill. Still, having a playbook might be useful, as it can be imported by other playbook to orchestrate installation of complex environments, and/or add additional configuration to them.
@@ -100,8 +96,8 @@ Some of the above do nothing beyond installing packages from official Ubuntu rep
 ## Testing
 
 * [test/setup.sh](https://github.com/gasrios/localops/blob/master/test/setup.sh) creates "test" Docker images. As a side effect, it also tests the installation process.
-* [test/test-playbook.sh](https://github.com/gasrios/localops/blob/master/test/test-playbook.sh) tests one playbook by running it twice for each supported distro.
-* [test/test-all-playbooks.sh](https://github.com/gasrios/localops/blob/master/test/test-all-playbooks.sh) tests all playbooks.
+* [test/test-playbook.sh](https://github.com/gasrios/localops/blob/master/test/test-playbook.sh) tests a given playbook against all supported distros.
+* [test/test-all-playbooks.sh](https://github.com/gasrios/localops/blob/master/test/test-all-playbooks.sh) tests all playbooks against all supported distros.
 
 Before testing the playbook, static code check is performed using [Ansible Lint](https://ansible-lint.readthedocs.io/en/latest/).
 
