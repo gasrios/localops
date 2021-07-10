@@ -10,6 +10,8 @@
 # after rebooting. Running "microk8s stop" before shutting down should prevent them from
 # happening and, even if they do, "microk8s start" and "microk8s stop" should fix them.
 
+- import_playbook: direnv.yaml
+
 - hosts: all
   gather_facts: false
   tasks:
