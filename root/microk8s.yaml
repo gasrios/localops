@@ -16,10 +16,16 @@
   - name: Install microk8s with option --classic
     become: yes
     become_user: root
-    snap:
-      name: microk8s
-      classic: yes
-      channel: latest/stable
+    shell: snap install microk8s --classic
+    # FIXME this stopped working out of the blue. Error:
+    #
+    # /usr/bin/snap i n f o microk8s
+    # error: unknown command "i"
+    #
+    #snap:
+    #  name: microk8s
+    #  classic: yes
+    #  channel: latest/stable
 
   # See https://microk8s.io/docs/addons
   - name: Deploy Add ons
