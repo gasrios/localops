@@ -40,7 +40,17 @@ then
   pip install --no-cache-dir --upgrade --force-reinstall --user ansible
 fi
 
+cd ~
+rm -rf localops
+
+git clone https://github.com/gasrios/localops.git
+
+cd ~/localops
+rm -rf .git*
+
 if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
 then
-  ./localops-cli.sh root/install.yaml
+  ./localops.sh root/install.yaml
 fi
+
+./localops.sh user/install.yaml

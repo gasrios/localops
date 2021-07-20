@@ -18,21 +18,21 @@ If you would like to add support to your favorite distro, check [bootstrap.sh](h
 
 ## Installation
 
-You have to install Ansible yourself, or follow the steps described in this section. Either way, start by checking this repository out (you may need to [install git](https://git-scm.com/download/linux) first):
+**Note:** Unless you know me personally, or work with me, you should not execute any instruction in this section before double checking them and the contents of script [bootstrap.sh](https://github.com/gasrios/localops/blob/master/bootstrap.sh). For all you know, I may not even exist, and this project is a trojan someone created to install a rootkit in your computer.
 
-`git clone git@github.com:gasrios/localops.git`
+After you are satisfied verifying everything, run the following command, first for a user than can `sudo`, or root, then for each user you want to be able to use localops:
 
-From within directory "localops", run:
+```
+curl -s https://raw.githubusercontent.com/gasrios/localops/master/bootstrap.sh | bash -
+```
 
-`./bootstrap.sh`
-
-If asked, inform your password (localops uses `sudo` to install APT packages). `./bootstrap.sh` will do nothing, if Ansible is already available, or install it, using [pip](https://pypi.org/project/pip/).
+If asked, inform your password.
 
 ## Using localops
 
 After installation, you can install additional softwares from the command line by running the following command, from localops root directory:
 
-`./localops-cli.sh ${PLAYBOOK_NAME}`
+`localops ${PLAYBOOK_NAME}`
 
 ## Security
 
