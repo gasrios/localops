@@ -22,12 +22,15 @@
       state: directory
 
   - name: Copy /var/snap/microk8s/current/credentials/kubelet.config to ~/.kube/microk8s
-    shell: "cp -f /var/snap/microk8s/current/credentials/kubelet.config {{ lookup('env', 'HOME') }}/.kube/microk8s"
+    copy:
+      src: /var/snap/microk8s/current/credentials/kubelet.config
+      dest: "{{ lookup('env', 'HOME') }}/.kube/microk8s"
+      mode: '0600'
 
   - name: Create file "~/.envrc" if it does not exist
     file:
       path: "{{ lookup('env', 'HOME') }}/.envrc"
-      state: touch
+      state: file
 
   - name: Add microk8s KUBECONFIG configuration to ~/.envrc
     blockinfile:
