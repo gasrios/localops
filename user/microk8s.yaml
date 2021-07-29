@@ -30,14 +30,17 @@
   - name: Create file "~/.envrc" if it does not exist
     file:
       path: "{{ lookup('env', 'HOME') }}/.envrc"
-      state: file
+      state: touch
 
-  - name: Add microk8s KUBECONFIG configuration to ~/.envrc
-    blockinfile:
+  - name: Add microk8s KUBECONFIG to ~/.envrc
+    lineinfile:
       path: "{{ lookup('env', 'HOME') }}/.envrc"
-      block: |
-        export KUBECONFIG=$HOME/.kube/microk8s
-        export CONTEXT=microk8s
+      line: export KUBECONFIG=$HOME/.kube/microk8s
+
+  - name: Add microk8s CONTEXT to ~/.envrc
+    lineinfile:
+      path: "{{ lookup('env', 'HOME') }}/.envrc"
+      line: export CONTEXT=microk8s
 
   - name: Update direnv config
     shell: direnv allow
