@@ -1,7 +1,0 @@
-- hosts: all
-  tasks:
-
-  - name: Enable direnv
-    lineinfile:
-      path: ~/.bashrc
-      line: eval "$(direnv hook bash)"

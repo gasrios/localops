@@ -1,5 +1,0 @@
-- name: Install Chef Workstation
-  import_playbook: root/chef-workstation.yaml
-
-- name: Install packer
-  import_playbook: user/packer.yaml

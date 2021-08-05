@@ -1,5 +1,0 @@
-- name: Install intellij, root
-  import_playbook: root/intellij.yaml
-
-- name: Install intellij, user
-  import_playbook: user/intellij.yaml

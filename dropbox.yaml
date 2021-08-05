@@ -1,5 +1,0 @@
-- name: Install dropbox, root
-  import_playbook: root/dropbox.yaml
-
-- name: Install dropbox, user
-  import_playbook: user/dropbox.yaml

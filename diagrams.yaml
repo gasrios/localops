@@ -1,5 +1,0 @@
-- name: Install diagrams, root
-  import_playbook: root/diagrams.yaml
-
-- name: Install diagrams, user
-  import_playbook: user/diagrams.yaml

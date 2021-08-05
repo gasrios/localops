@@ -1,8 +1,0 @@
-- hosts: all
-  tasks:
-    - name: Install VS Code
-      become: yes
-      become_user: root
-      snap:
-        classic: yes
-        name: code
