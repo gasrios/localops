@@ -41,11 +41,11 @@ then
 fi
 
 cd ~
-rm -rf localops
+rm -rf .localops
 
-git clone https://github.com/gasrios/localops.git
+git clone https://github.com/gasrios/localops.git .localops
 
-cd ~/localops
+cd ~/.localops
 rm -rf .git*
 
 if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
