@@ -13,7 +13,7 @@ distro_dependent_setup() {
     export DEBIAN_FRONTEND=noninteractive
     $(which sudo) apt update
     $(which sudo) apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
-    $(which sudo) apt install --assume-yes python3-pip python-is-python3
+    $(which sudo) apt install --assume-yes python3-pip python-is-python3 git
   ;;
   *)
     echo "Unsupported distro ${DISTRO}"
@@ -21,6 +21,17 @@ distro_dependent_setup() {
   ;;
   esac
 }
+
+BRANCH='master'
+
+while [ "${1:-}" != "" ]; do
+    case $1 in
+        -b | --branch )   shift
+            BRANCH=$1
+            ;;
+    esac
+    shift
+done
 
 if [ -z "$(which ansible-playbook)" ]
 then
@@ -46,6 +57,7 @@ rm -rf .localops
 git clone https://github.com/gasrios/localops.git .localops
 
 cd ~/.localops
+git checkout $BRANCH
 rm -rf .git*
 
 if [ "$(whoami)" = root -o ! -z "$(groups | egrep sudo)" ]
