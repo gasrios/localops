@@ -36,3 +36,9 @@
     register: zshrc
 
     # ...
+  - name: Install direnv
+    become: yes
+    become_user: root
+    apt:
+      state: latest
+      pkg: direnv

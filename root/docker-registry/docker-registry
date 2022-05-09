@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# THIS IS NOT PRODUCTION READY!
-# Use this to start a local Docker registry, for develoment & tests, only.
-
-/usr/bin/docker start registry
-
-docker exec registry bin/registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true || true

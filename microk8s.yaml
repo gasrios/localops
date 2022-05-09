@@ -1,5 +1,0 @@
-- name: Install microk8s, root
-  import_playbook: root/microk8s.yaml
-
-- name: Install microk8s, user
-  import_playbook: user/microk8s.yaml

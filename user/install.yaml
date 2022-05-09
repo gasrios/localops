@@ -1,0 +1,11 @@
+- import_playbook: create-user-bin.yaml
+
+- hosts: all
+  gather_facts: false
+  tasks:
+
+  - name: Create symbolic link to localops.sh in ~/bin
+    file:
+      src: ~/.localops/localops.sh
+      dest: ~/bin/localops
+      state: link
