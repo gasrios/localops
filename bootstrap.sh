@@ -46,9 +46,9 @@ then
     fi
   fi
   export PATH=${HOME}/.local/bin:${PATH}
-  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user pip
-  pip install --no-cache-dir --upgrade --force-reinstall --user wheel
-  pip install --no-cache-dir --upgrade --force-reinstall --user ansible
+  $(which pip3 || which pip) install --no-cache-dir --upgrade --force-reinstall --user --break-system-packages pip
+  pip install --no-cache-dir --upgrade --force-reinstall --user --break-system-packages wheel
+  pip install --no-cache-dir --upgrade --force-reinstall --user --break-system-packages ansible
 fi
 
 cd ~
