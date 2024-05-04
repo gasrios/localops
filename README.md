@@ -12,7 +12,7 @@ You may be interested in this project if:
 * [Debian 12 (bookworm)](https://www.debian.org/releases/bookworm/)
 * [Ubuntu 22.04 (Jammy Jellyfish)](http://releases.ubuntu.com/22.04/)
 
-If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/debian/bootstrap.sh#L70) out.
+If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/master/bootstrap.sh#L70) out.
 
 ## Installation
 
