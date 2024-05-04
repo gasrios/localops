@@ -14,6 +14,7 @@ while [ "$#" -gt 0 ]; do
     # If the user is not a member of sudo, we have to prompt for a password here.
     # 
     # TODO: this will always prompt for a password, even if changes are only local.
+    #       (but in this case you can just proceed without entering a password)
     #
     # TODO: if a playbook needs to impersonate two users or more, it won't work.
     ANSIBLE_CONFIG="${ANSIBLE_CONFIG}" ansible-playbook -i localhost, -c local\
