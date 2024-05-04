@@ -1,8 +1,12 @@
-- import_playbook: create-user-bin.yaml
-
 - hosts: all
   gather_facts: false
   tasks:
+
+  - name: Create user bin
+    file:
+      path: "{{ lookup('env', 'HOME') }}/bin"
+      mode: '744'
+      state: directory
 
   - name: Create symbolic link to localops.sh in ~/bin
     file:

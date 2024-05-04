@@ -7,12 +7,12 @@ You may be interested in this project if:
 1. You constantly need to set up computers for your own use, with different configurations each time (my personal motivation);
 1. You manage several distinct computer configurations, and are just plain tired of doing so manually, having to remember every little detail and difference each one has (come to think of it, my personal motivation, too).
 
-## Currently supported distros:
+## Tested distros:
 
-* [Ubuntu 18.04 (Bionic Beaver)](http://releases.ubuntu.com/18.04/), 64 bit only
-* [Ubuntu 20.04 (Focal Fossa)](http://releases.ubuntu.com/20.04/)
+* [Debian 12 (bookworm)](https://www.debian.org/releases/bookworm/)
+* [Ubuntu 22.04 (Jammy Jellyfish)](http://releases.ubuntu.com/22.04/)
 
-If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/master/bootstrap.sh#L8) out. Some playbooks assume Ubuntu, others should work with any distro out of the box, but the installation can be easily customized to support any other you want.
+If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/debian/bootstrap.sh#L70) out.
 
 ## Installation
 
@@ -38,6 +38,6 @@ _____
 
 The following copyright notice applies to all files, unless otherwise indicated in the file.
 
-### © 2021 Guilherme Rios All Rights Reserved
+### © 2024 Guilherme Rios All Rights Reserved
 
 All files in localops are licensed under the [MIT License](https://github.com/gasrios/localops/blob/master/LICENSE), unless otherwise indicated in the file.
