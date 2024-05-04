@@ -3,6 +3,8 @@
 set -eu
 
 BRANCH='main'
+# In Debian 12, pip will only install user packages with '--break-system-packages' set
+BREAK_SYSTEM_PACKAGES=''
 DRY_RUN=''
 LOCALOPS_HOME="${HOME}/.localops"
 SUPERUSER=true
@@ -78,6 +80,8 @@ install_dependencies() {
     . /etc/os-release
   fi
 
+  distro_dependent_setup
+
   if ! command -v git >/dev/null; then
     echo 'git not found, installing...'
     install_package git
@@ -92,7 +96,7 @@ install_dependencies() {
       install_package pip
     fi
 
-    ${DRY_RUN} pip install --no-cache-dir --upgrade --force-reinstall --user --break-system-packages ansible
+    ${DRY_RUN} pip install --no-cache-dir --upgrade --force-reinstall --user ${BREAK_SYSTEM_PACKAGES} ansible
 
     if ! echo "${PATH}" | grep -q "${HOME}/.local/bin"; then
       export PATH=${HOME}/.local/bin:${PATH}
@@ -100,6 +104,16 @@ install_dependencies() {
 
   fi
 
+}
+
+distro_dependent_setup() {
+  case ${ID} in
+  debian)
+    BREAK_SYSTEM_PACKAGES='--break-system-packages'
+    ;;
+  *)
+    ;;
+  esac
 }
 
 install_package() {
@@ -126,12 +140,12 @@ execute_command() {
 
   if [ "$(whoami)" = root ]; then
     ${1}
-    exit 0
+    return
   fi
 
   if [ ! -z "$(groups | egrep sudo)" ]; then
     sudo ${1}
-    exit 0
+    return
   fi
 
   su -c "${1}"
