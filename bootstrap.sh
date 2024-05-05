@@ -2,7 +2,7 @@
 
 set -eu
 
-BRANCH='main'
+BRANCH='master'
 # In Debian 12, pip will only install user packages with '--break-system-packages' set
 BREAK_SYSTEM_PACKAGES=''
 DRY_RUN=''
@@ -56,7 +56,7 @@ check_overwrite_previous_install() {
 
   if [ -e "${LOCALOPS_HOME}" ]; then
 
-    read -p "${LOCALOPS_HOME} already exists and will be deleted. Proceed? [y/N] " CONTINUE
+    read -p "${LOCALOPS_HOME} already exists and will be deleted. Proceed? [y/N] " CONTINUE </dev/tty
 
     if [ "${CONTINUE}" != 'y' -a "${CONTINUE}" != 'Y' ]; then
       echo 'Exiting.'
@@ -139,16 +139,16 @@ install_package() {
 execute_command() {
 
   if [ "$(whoami)" = root ]; then
-    ${1}
+    ${1} </dev/tty
     return
   fi
 
   if [ ! -z "$(groups | egrep sudo)" ]; then
-    sudo ${1}
+    sudo ${1} </dev/tty
     return
   fi
 
-  su -c "${1}"
+  su -c "${1}" </dev/tty
 
 }
 

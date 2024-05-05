@@ -21,14 +21,14 @@ If you would like to add support to your favorite distro, check [bootstrap.sh](h
 After you are satisfied verifying everything, run the following command, first for a user than can `sudo`, or root, then for each user you want to be able to use localops:
 
 ```
-curl -s https://raw.githubusercontent.com/gasrios/localops/master/bootstrap.sh | bash -
+curl -s https://raw.githubusercontent.com/gasrios/localops/master/bootstrap.sh | sh -
 ```
 
 If asked, inform your password.
 
 ## Using localops
 
-After installation, you can install additional softwares from the command line by running the following command:
+After installation, you can install additional software from the command line by running the following command:
 
 `localops ${PATH_TO_PLAYBOOK}`
 
