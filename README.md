@@ -2,17 +2,14 @@
 
 Local environment software installation and configuration tool that uses [Ansible](https://www.ansible.com/).
 
-You may be interested in this project if:
-
-1. You constantly need to set up computers for your own use, with different configurations each time (my personal motivation);
-1. You manage several distinct computer configurations, and are just plain tired of doing so manually, having to remember every little detail and difference each one has (come to think of it, my personal motivation, too).
+Think of it as "documentation as code." I got tired of always having to look for and read the same pages online, then run manually exactly the same steps, every time I wanted to do something more complex than install a distro provided package. Turning this documentation into code I can execute instead is simpler.
 
 ## Tested distros:
 
 * [Debian 12 (bookworm)](https://www.debian.org/releases/bookworm/)
 * [Ubuntu 22.04 (Jammy Jellyfish)](http://releases.ubuntu.com/22.04/)
 
-If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/master/bootstrap.sh#L70) out.
+If you would like to add support to your favorite distro, check [bootstrap.sh](https://github.com/gasrios/localops/blob/master/bootstrap.sh#L80) out.
 
 ## Installation
 
