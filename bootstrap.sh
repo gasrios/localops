@@ -97,21 +97,23 @@ install_dependencies() {
     install_package git
   fi
 
+  if ! command -v pip >/dev/null; then
+    echo 'pip not found, installing...'
+    install_package pip
+  fi
+
   if ! command -v ansible-playbook >/dev/null; then
-
     echo 'ansible-playbook not found, installing...'
+    pip_install ansible
+  fi
 
-    if ! command -v pip >/dev/null; then
-      echo 'pip not found, installing...'
-      install_package pip
-    fi
+  if ! command -v ansible-lint >/dev/null; then
+    echo 'ansible-lint not found, installing...'
+    pip_install ansible-lint
+  fi
 
-    ${DRY_RUN} pip install --no-cache-dir --upgrade --force-reinstall ${ALLOW_USER_PACKAGES} --user ansible
-
-    if ! echo "${PATH}" | grep -q "${HOME}/.local/bin"; then
-      export PATH=${HOME}/.local/bin:${PATH}
-    fi
-
+  if ! echo "${PATH}" | grep -q "${HOME}/.local/bin"; then
+    export PATH=${HOME}/.local/bin:${PATH}
   fi
 
 }
@@ -164,6 +166,12 @@ execute_command() {
   fi
 
   su -c "${1}" </dev/tty
+
+}
+
+pip_install() {
+
+    ${DRY_RUN} pip install --no-cache-dir --upgrade --force-reinstall ${ALLOW_USER_PACKAGES} --user ${1}
 
 }
 
