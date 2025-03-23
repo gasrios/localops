@@ -161,7 +161,8 @@ execute_command() {
   fi
 
   if [ ! -z "$(groups | egrep sudo)" ]; then
-    sudo ${1} </dev/tty
+    # Tests fail without "|| sudo ${1}," as they do not run from within a terminal
+    sudo ${1} </dev/tty || sudo ${1}
     return
   fi
 

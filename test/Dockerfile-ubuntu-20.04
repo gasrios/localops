@@ -19,7 +19,7 @@ RUN rm /etc/apt/apt.conf.d/docker-gzip-indexes && \
 COPY . /home/test/localops/
 
 RUN chown -R test:test /home/test/localops && \
-    su test -c 'cd /home/test/localops && ./bootstrap.sh' && \
+    su test -c 'cd /home/test/localops && ./bootstrap.sh --debug' && \
     rm -rf /home/test/localops
 
 ENTRYPOINT ["/bin/bash", "-c"]
