@@ -123,7 +123,9 @@ distro_dependent_setup() {
   debian)
     ALLOW_USER_PACKAGES='--break-system-packages'
     ;;
-  ubuntu) ;;
+  ubuntu)
+    ALLOW_USER_PACKAGES='--break-system-packages'
+    ;;
   *)
     echo "Unsupported distribution \"${ID}\". Exiting."
     exit 1
