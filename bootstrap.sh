@@ -124,6 +124,7 @@ distro_dependent_setup() {
     ALLOW_USER_PACKAGES='--break-system-packages'
     ;;
   'ubuntu')
+    install_package curl
     install_package python3-debian
     case ${VERSION_ID} in
     '24.04')
