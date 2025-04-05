@@ -120,10 +120,21 @@ install_dependencies() {
 
 distro_dependent_setup() {
   case ${ID} in
-  debian)
+  'debian')
     ALLOW_USER_PACKAGES='--break-system-packages'
     ;;
-  ubuntu)
+  'ubuntu')
+    install_package python3-debian
+    case ${VERSION_ID} in
+    '24.04')
+      ALLOW_USER_PACKAGES='--break-system-packages'
+      ;;
+    '22.04')
+      ;;
+    *)
+      echo "WARNING: unsupported Ubuntu version \"${VERSION_ID}\". You are on your own."
+      ;;
+    esac
     ;;
   *)
     echo "Unsupported distribution \"${ID}\". Exiting."
@@ -140,7 +151,7 @@ install_package() {
   fi
 
   case ${ID} in
-  ubuntu | debian)
+  'ubuntu' | 'debian')
     COMMAND="${DRY_RUN} apt install --assume-yes ${1}"
     ;;
   *)

@@ -1,0 +1,20 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# See https://bugs.launchpad.net/ubuntu/+source/command-not-found/+bug/1876034
+RUN rm /etc/apt/apt.conf.d/docker-gzip-indexes && \
+    apt update && \
+    apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" && \
+    apt install --assume-yes sudo ubuntu-standard && \
+    useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel && \
+    passwd -d test && \
+    adduser test sudo
+
+COPY . /home/test/localops/
+
+RUN chown -R test:test /home/test/localops && \
+    su test -c 'cd /home/test/localops && ./bootstrap.sh --debug' && \
+    rm -rf /home/test/localops
+
+ENTRYPOINT ["/bin/bash", "-c"]

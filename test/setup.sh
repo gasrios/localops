@@ -4,7 +4,9 @@ set -eux
 
 cd ..
 
-for DISTRO in ubuntu-20.04
-do
+for DISTRO in ubuntu-22.04 ubuntu-24.04; do
+  docker image rm localops:${DISTRO} || true
   docker build -t localops:${DISTRO} -f test/Dockerfile-${DISTRO} .
 done
+
+docker builder prune
