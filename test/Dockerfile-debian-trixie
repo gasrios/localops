@@ -1,0 +1,16 @@
+FROM debian:trixie
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt update && \
+    apt upgrade --assume-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" && \
+    useradd --shell /bin/bash --create-home --home-dir /home/test test --skel /etc/skel && \
+    passwd -d root
+
+COPY . /home/test/localops/
+
+RUN chown -R test:test /home/test/localops && \
+    su test -c 'cd /home/test/localops && ./bootstrap.sh --debug' && \
+    rm -rf /home/test/localops
+
+ENTRYPOINT ["/bin/bash", "-c"]

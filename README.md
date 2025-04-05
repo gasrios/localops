@@ -6,7 +6,8 @@ Think of it as "documentation as code." I got tired of always having to look for
 
 ## Supported distros:
 
-* [Debian 12 (bookworm)](https://www.debian.org/releases/bookworm/)
+* [Debian “bookworm”](https://www.debian.org/releases/bookworm/)
+* [Debian “trixie”](https://www.debian.org/releases/trixie/)
 * [Ubuntu 22.04 (Jammy Jellyfish)](http://releases.ubuntu.com/22.04/)
 * [Ubuntu 24.04 (Noble Numbat)](http://releases.ubuntu.com/22.04/)
 
