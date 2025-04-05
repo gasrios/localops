@@ -36,7 +36,7 @@ main() {
 }
 
 parse_arguments() {
-  while [ "${1:-}" != "" ]; do
+  while [ "${1:-}" != '' ]; do
     case ${1} in
     -b | --branch)
       shift
@@ -124,7 +124,6 @@ distro_dependent_setup() {
     ALLOW_USER_PACKAGES='--break-system-packages'
     ;;
   ubuntu)
-    ALLOW_USER_PACKAGES='--break-system-packages'
     ;;
   *)
     echo "Unsupported distribution \"${ID}\". Exiting."
