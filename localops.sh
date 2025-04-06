@@ -4,19 +4,38 @@ set -eu
 
 ANSIBLE_CONFIG="${HOME}/.localops/ansible.cfg"
 ASK_BECOME_PASS=''
+PLAYBOOKS=''
 
 main() {
 
+  parse_arguments "${@}"
+
   determine_su_strategy;
 
-  while [ "$#" -gt 0 ]; do
-    ANSIBLE_CONFIG="${ANSIBLE_CONFIG}" ansible-playbook\
-      -i localhost,\
-      -c local\
-      -e "ansible_python_interpreter=$(which python3 || which python)"\
-      ${ASK_BECOME_PASS}\
-      $1
+  for PLAYBOOK in ${PLAYBOOKS}; do
+    run_playbook ${PLAYBOOK}
+  done
+
+}
+
+parse_arguments() {
+
+  while [ "${1:-}" != '' ]; do
+
+    case ${1} in
+
+    -d | --debug)
+      set -x
+      ;;
+
+    *)
+      PLAYBOOKS="${PLAYBOOKS} ${1}"
+      ;;
+
+    esac
+
     shift
+
   done
 
 }
@@ -46,6 +65,15 @@ determine_su_strategy() {
 
   fi
 
+}
+
+run_playbook() {
+  ANSIBLE_CONFIG="${ANSIBLE_CONFIG}" ansible-playbook\
+    -i localhost,\
+    -c local\
+    -e "ansible_python_interpreter=$(which python3 || which python)"\
+    ${ASK_BECOME_PASS}\
+    ${1}
 }
 
 main "${@}"
