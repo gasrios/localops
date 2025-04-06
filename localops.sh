@@ -69,9 +69,9 @@ determine_su_strategy() {
 
 run_playbook() {
   ANSIBLE_CONFIG="${ANSIBLE_CONFIG}" ansible-playbook\
-    -i localhost,\
-    -c local\
-    -e "ansible_python_interpreter=$(which python3 || which python)"\
+    --inventory localhost,\
+    --connection local\
+    --extra-vars "ansible_python_interpreter=$(which python3 || which python)"\
     ${ASK_BECOME_PASS}\
     ${1}
 }
